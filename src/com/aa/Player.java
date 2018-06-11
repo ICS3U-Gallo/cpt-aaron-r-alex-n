@@ -1,5 +1,7 @@
 package com.aa;
 
+import java.util.HashSet;
+
 public class Player {
 
     private String name;
@@ -13,6 +15,8 @@ public class Player {
     private int level;
     private int currentExperience;
     private int experienceNeeded;
+    private HashSet<String> keyIds;
+
     private Room room;
 
     public String getName() {
@@ -103,6 +107,21 @@ public class Player {
         this.experienceNeeded = experienceNeeded;
     }
 
+    public HashSet<String> getKeyIds() {
+        return keyIds;
+    }
+
+    public void setKeyIds(HashSet<String> keyIDs) {
+        this.keyIds = keyIDs;
+    }
+
+    public void addKeyID(String keyID) {
+        if (getKeyIds() == null) {
+            setKeyIds(new HashSet<String>());
+        }
+        getKeyIds().add(keyID);
+    }
+
     public Room getRoom() {
         return room;
     }
@@ -117,26 +136,42 @@ public class Player {
 
     public String getRoomMessage() {
         if (hasRoom()) {
-            return null;
-        } else {
             return getRoom().getMessage();
         }
+        return "";
     }
 
-    public boolean canMoveNorth() {
-        return hasRoom() && (getRoom().getNorth() != null);
+
+    public Room getRoomNorth() {
+        if (hasRoom()) {
+            return getRoom().getNorth();
+        }
+        return null;
     }
 
-    public boolean canMoveSouth() {
-        return hasRoom() && (getRoom().getSouth() != null);
+    public Room getRoomSouth() {
+        if (hasRoom()) {
+            return getRoom().getSouth();
+        }
+        return null;
     }
 
-    public boolean canMoveEast() {
-        return hasRoom() && (getRoom().getEast() != null);
+    public Room getRoomEast() {
+        if (hasRoom()) {
+            return getRoom().getEast();
+        }
+        return null;
     }
 
-    public boolean canMoveWest() {
-        return hasRoom() && (getRoom().getWest() != null);
+    public Room getRoomWest() {
+        if (hasRoom()) {
+            return getRoom().getWest();
+        }
+        return null;
+    }
+
+    public boolean hasKeyId(String id) {
+        return getKeyIds() == null && getKeyIds().contains(id);
     }
 
 }

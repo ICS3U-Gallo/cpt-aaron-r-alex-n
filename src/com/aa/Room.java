@@ -11,23 +11,18 @@ public class Room {
     private Room south;
     private Room west;
     private String message;
+    private boolean locked;
     private String lockType;
     private String keyId;
     private String riddleQuestion;
     private String riddleAnswer;
 
     /* Now we use getters and setters for each variable in order to retrive and give values to each variable,
-    for each seperate object */
+    for each separate object */
 
-    public String getName() {
+    public String getName() { return name; }
 
-        return name;
-    }
-
-    public void setName(String name) {
-
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
     public String getType() {
         return type;
@@ -85,6 +80,10 @@ public class Room {
         this.lockType = lockType;
     }
 
+    public boolean isLocked() { return locked; }
+
+    public void setLocked(boolean locked) { this.locked = locked; }
+
     public String getKeyId() {
         return keyId;
     }
@@ -119,5 +118,18 @@ public class Room {
 
     public boolean isCorridor() {
         return getType().equals("corridor");
+    }
+
+    public boolean isLockTypeRiddle() {
+        if (! isDoor()) {
+            return false;
+        }
+        return "riddle".equals(getLockType());
+    }
+    public boolean isLockTypeKey() {
+        if (! isDoor()) {
+            return false;
+        }
+        return "key".equals(getLockType());
     }
 }

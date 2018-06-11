@@ -39,7 +39,7 @@ public class Initializer {
         Room d1 = new Room();
         d1.setName("Riddled Door");
         d1.setType("door");
-        d1.setMessage("A door stops your path. There is a carvev face on the stonework.\n");
+        d1.setMessage("A door stops your path. There is a carved face on the stonework.\n");
 
 
         Room cr2 = new Room();
@@ -93,7 +93,7 @@ public class Initializer {
         Room rt = new Room();
         rt.setName("Riddled Room");
         rt.setType("chamber");
-        rt.setMessage("You enter a room filled with traps.\nYou see a stone face carved in the wall.\nWalking through blindly will be your demise, but with careful footing, you may proceed freely.\n");
+        rt.setMessage("You enter a room filled with traps.\nWalking through blindly will be your demise, but with careful footing, you may proceed freely.\n");
 
 
         Room cr3 = new Room();
