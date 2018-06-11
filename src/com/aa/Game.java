@@ -149,7 +149,19 @@ public class Game {
 
 
     public void movePlayerSouth(Scanner s) {
+        Room r = getPlayer().getRoomSouth();
+        if (r != null) {
+            if (r.isDoor()) {
+                dealWithDoor(r, r.getSouth(), s);
+            }
+            else {
+                movePlayerToRoom(r);
+            }
+            return;
+        }
+        messageln("You cannot go through walls!");
     }
+    
     public void movePlayerEast(Scanner s) {
 
     }
