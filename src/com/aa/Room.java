@@ -119,6 +119,7 @@ public class Room {
     public boolean isCorridor() {
         return getType().equals("corridor");
     }
+    
 
     public boolean isLockTypeRiddle() {
         if (! isDoor()) {

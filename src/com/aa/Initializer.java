@@ -1,5 +1,7 @@
 package com.aa;
 
+import java.util.ArrayList;
+
 public class Initializer {
     public static Room createMap() {
 
@@ -173,11 +175,6 @@ public class Initializer {
         Player p = new Player();
         p.setHealth(12);
         p.setDamage(3);
-        p.setAttack(5);
-        p.setArmour(16);
-        p.setLevel(1);
-        p.setCurrentExperience(0);
-        p.setExperienceNeeded(20);
         return p;
     }
 
@@ -185,5 +182,18 @@ public class Initializer {
         Player p = initializePlayer();
         p.setRoom(createMap());
         return p;
+    }
+
+
+    public static ArrayList<Enemy> createEnemies() {
+        Enemy e;
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        e = new Enemy("Troll", 10, 10);
+        enemies.add(e);
+
+        //  e = new Enemy(...
+        // enemies.add(e);
+
+        return enemies;
     }
 }

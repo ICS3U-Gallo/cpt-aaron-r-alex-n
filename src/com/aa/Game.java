@@ -1,26 +1,30 @@
 package com.aa;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Game {
     private boolean finished = false;
     private Player player;
+    private ArrayList<Enemy> enemies;
 
 
     public boolean isFinished() {
         return finished;
     }
-
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
-
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
+    public ArrayList<Enemy> getEnemies() { return enemies; }
+    public void setEnemies(ArrayList<Enemy> enemies) { this.enemies = enemies; }
 
     public static void main(String[] args) {
 
         Game game = new Game();
+        game.setPlayer(Initializer.createPlayer());
+        game.setEnemies(Initializer.createEnemies());
         game.play();
 
     }
@@ -61,7 +65,7 @@ public class Game {
         }
     }
 
-    public void movePlayerToRoom(Room r) {
+    public void movePlayerToRoom(String dir, Room r) {
         if (r == null) {
             messageln("There is nowhere to go!");
             return;
@@ -71,7 +75,7 @@ public class Game {
         printCurrentRoomMessage();
     }
 
-    public void dealWithDoor(Room door, Room nextRoom, Scanner s) {
+    public void dealWithDoor(String dir, Room door, Room nextRoom, Scanner s) {
         if (door == null) {
             return;
         }
@@ -80,7 +84,7 @@ public class Game {
 
         if (! door.isLocked()) {
             messageln("The door is unlocked and you gor through to the next room.");
-            movePlayerToRoom(nextRoom);
+            movePlayerToRoom(dir, nextRoom);
             return;
         }
 
@@ -88,7 +92,7 @@ public class Game {
             if (door.getRiddleQuestion() == null || (door.getRiddleQuestion().isEmpty())) {
                 messageln("Huh! This door used to require answering a riddle to open... it is your lucky day and the door unlocks and you proceed to the next room.");
                 door.setLocked(false);
-                movePlayerToRoom(nextRoom);
+                movePlayerToRoom(dir, nextRoom);
                 return;
             }
             int limit = 3;
@@ -101,7 +105,7 @@ public class Game {
                 if (answer.equalsIgnoreCase(door.getRiddleAnswer())) {
                     messageln("You have answered the riddle! The door unlocks and you proceed to the following room.");
                     door.setLocked(false);
-                    movePlayerToRoom(nextRoom);
+                    movePlayerToRoom(dir, nextRoom);
                     return;
                 }
                 else {
@@ -118,7 +122,7 @@ public class Game {
                 if (getPlayer().hasKeyId(door.getKeyId())) {
                     messageln("You use the key for this door to open it. You proceed to the next room. ");
                     door.setLocked(false);
-                    movePlayerToRoom(nextRoom);
+                    movePlayerToRoom(dir, nextRoom);
                 }
                 else {
                     messageln("You don't have the key for this door. Go somewhere else.");
@@ -127,69 +131,48 @@ public class Game {
             }
             messageln("Huh!, it seems this door does not need a key anymore. It unlocks and you proceed to the next room.");
             door.setLocked(false);
-            movePlayerToRoom(nextRoom);
+            movePlayerToRoom(dir, nextRoom);
             return;
 
         }
     }
 
-    public void movePlayerNorth(Scanner s) {
-        Room r = getPlayer().getRoomNorth();
-        if (r != null) {
-            if (r.isDoor()) {
-                dealWithDoor(r, r.getNorth(), s);
-            }
-            else {
-                movePlayerToRoom(r);
-            }
+
+    public void attemptToMovePlayer(String dir, Room nextRoom, Room afterRoom, Scanner s) {
+        if (nextRoom == null) {
+            messageln("You cannot go through walls!");
             return;
         }
-        messageln("You cannot go through walls!");
-    }
 
-
-    public void movePlayerSouth(Scanner s) {
-        Room r = getPlayer().getRoomSouth();
-        if (r != null) {
-            if (r.isDoor()) {
-                dealWithDoor(r, r.getSouth(), s);
-            }
-            else {
-                movePlayerToRoom(r);
-            }
+        if (nextRoom.isDoor()) {
+            dealWithDoor(dir, nextRoom, afterRoom, s);
             return;
         }
-        messageln("You cannot go through walls!");
-    }
-    
-    public void movePlayerEast(Scanner s) {
 
-    }
-    public void movePlayerWest(Scanner s) {
-
+        movePlayerToRoom(dir, nextRoom);
     }
 
 
-    public void movePlayer(Scanner s) {
+    public void getUserInput(Scanner s) {
         String input = s.next();
         if ("x".equalsIgnoreCase(input)) {
             attemptToQuitGame(s);
             return;
         }
         if ("n".equalsIgnoreCase(input)) {
-            movePlayerNorth(s);
+            attemptToMovePlayer("North", getPlayer().getRoomNorth(), getPlayer().getAfterRoomNorth(), s);
             return;
         }
         if ("s".equalsIgnoreCase(input)) {
-            movePlayerSouth(s);
+            attemptToMovePlayer("South", getPlayer().getRoomSouth(), getPlayer().getAfterRoomSouth(), s);
             return;
         }
         if ("e".equalsIgnoreCase(input)) {
-            movePlayerEast(s);
+            attemptToMovePlayer("East", getPlayer().getRoomEast(), getPlayer().getAfterRoomEast(), s);
             return;
         }
         if ("w".equalsIgnoreCase(input)) {
-            movePlayerWest(s);
+            attemptToMovePlayer("West", getPlayer().getRoomWest(), getPlayer().getAfterRoomWest(), s);
             return;
         }
 
@@ -199,7 +182,6 @@ public class Game {
     public void play() {
 
         Scanner owl = new Scanner(System.in);
-        setPlayer(Initializer.createPlayer());
 
         messageln("Welcome to Dungeon Brawler\n");
         messageln("You are a drifter, from a far off land.\nFor many years, you took odd jobs from time to time\nhowever recently, you caught wind of a huge bounty, set up by a king.\nYour task is simple: Kill the red dragon Ashardalon, and free the townfolk of it's terror.\nThe dragon has taken residence in an ancient Dwarven castle, deep underground.\nAs you walk in the endless caverns, you misstep, the floor below you breaks\nand fall down into a room...\n\n");
@@ -207,7 +189,7 @@ public class Game {
 
         while (! isFinished()) {
             message("Where would you like to go? (n)orth, (e)ast, (s)outh, (w)est: ");
-            movePlayer(owl);
+            getUserInput(owl);
         }
     }
 }

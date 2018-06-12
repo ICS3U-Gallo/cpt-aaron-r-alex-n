@@ -7,14 +7,7 @@ public class Player {
     private String name;
     private int health;
     private int damage;
-    private int attack;
-    private int armour;
-    private int agility;
-    private int perception;
-    private int sneak;
-    private int level;
-    private int currentExperience;
-    private int experienceNeeded;
+
     private HashSet<String> keyIds;
 
     private Room room;
@@ -41,70 +34,6 @@ public class Player {
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public int getArmour() {
-        return armour;
-    }
-
-    public void setArmour(int armour) {
-        this.armour = armour;
-    }
-
-    public int getAgility() {
-        return agility;
-    }
-
-    public void setAgility(int agility) {
-        this.agility = agility;
-    }
-
-    public int getPerception() {
-        return perception;
-    }
-
-    public void setPerception(int perception) {
-        this.perception = perception;
-    }
-
-    public int getSneak() {
-        return sneak;
-    }
-
-    public void setSneak(int sneak) {
-        this.sneak = sneak;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getCurrentExperience() {
-        return currentExperience;
-    }
-
-    public void setCurrentExperience(int currentExperience) {
-        this.currentExperience = currentExperience;
-    }
-
-    public int getExperienceNeeded() {
-        return experienceNeeded;
-    }
-
-    public void setExperienceNeeded(int experienceNeeded) {
-        this.experienceNeeded = experienceNeeded;
     }
 
     public HashSet<String> getKeyIds() {
@@ -168,6 +97,38 @@ public class Player {
             return getRoom().getWest();
         }
         return null;
+    }
+
+    public Room getAfterRoomNorth() {
+        Room r = getRoomNorth();
+        if (r == null || ! r.isDoor()) {
+            return null;
+        }
+        return r.getNorth();
+    }
+
+    public Room getAfterRoomSouth() {
+        Room r = getRoomSouth();
+        if (r == null || ! r.isDoor()) {
+            return null;
+        }
+        return r.getSouth();
+    }
+
+    public Room getAfterRoomEast() {
+        Room r = getRoomEast();
+        if (r == null || ! r.isDoor()) {
+            return null;
+        }
+        return r.getEast();
+    }
+
+    public Room getAfterRoomWest() {
+        Room r = getRoomWest();
+        if (r == null || ! r.isDoor()) {
+            return null;
+        }
+        return r.getWest();
     }
 
     public boolean hasKeyId(String id) {
