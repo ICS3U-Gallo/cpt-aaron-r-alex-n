@@ -201,13 +201,41 @@ public class Initializer {
         e = new Enemy("Cursed Armour", 10, 5);
         enemies.add(e);
         
-        e = new Enemy("Giant Spider", 8, 7);
+        e = new Enemy("Giant Spider", 8, 8);
         enemies.add(e);
         
         e = new Enemy("Lich", 6, 10);
         enemies.add(e);
         
-        e = new Enemy("Necromancer
+        e = new Enemy("Werewolf", 7, 6);
+        enemies.add(e);
+        
+        e = new Enemy("Vampire", 6, 7);
+        enemies.add(e);
+        
+        e = new Enemy("Ghoul", 5, 4);
+        enemies.add(e);
+        
+        e = new Enemy("Phantom", 1, 3);
+        enemies.add(e);
+        
+        e = new Enemy("Living Statue", 15, 3);
+        enemies.add(e);
+        
+        e = new Enemy("Brittle Statue", 5, 8);
+        enemies.add(e);
+        
+        e = new Enemy("Cave Bear", 6, 4);
+        enemies.add(e);
+        
+        e = new Enemy("Parasitic Worm", 2, 6);
+        enemies.add(e);
+        
+        e = new Enemy("Basilisk", 12, 10);
+        enemies.add(e);
+        
+        e = new Enemy("Wyvern", 8, 7);
+        enemies.add(e);
 
         //  e = new Enemy(...
         // enemies.add(e);
