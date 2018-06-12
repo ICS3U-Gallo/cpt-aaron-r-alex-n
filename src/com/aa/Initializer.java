@@ -188,8 +188,26 @@ public class Initializer {
     public static ArrayList<Enemy> createEnemies() {
         Enemy e;
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        e = new Enemy("Troll", 10, 10);
+        
+        e = new Enemy("Troll", 10, 15);
         enemies.add(e);
+        
+        e = new Enemy("Skeleton", 3, 5);
+        enemies.add(e);
+        
+        e = new Enemy("Orc", 5, 5);
+        enemies.add(e);
+        
+        e = new Enemy("Cursed Armour", 10, 5);
+        enemies.add(e);
+        
+        e = new Enemy("Giant Spider", 8, 7);
+        enemies.add(e);
+        
+        e = new Enemy("Lich", 6, 10);
+        enemies.add(e);
+        
+        e = new Enemy("Necromancer
 
         //  e = new Enemy(...
         // enemies.add(e);
