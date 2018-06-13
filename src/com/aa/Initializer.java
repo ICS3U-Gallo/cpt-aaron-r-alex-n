@@ -36,6 +36,8 @@ public class Initializer {
         rh.setName("Spiked Hallway");
         rh.setType("corridor");
         rh.setMessage("You walk into a stone hallway, the floor is old and bloodstained, while the walls are covered in long sharp spikes.\n");
+        rh.setRiddleQuestion("A stone face carved into the wall says\n'In order to proceed, you must prove your worth.\nAnswer me this riddle, in order to leave safely.\nHowever if you displease me, you will meet your death.\n\nAnswer me this: I began eternity, and ended space,\nat the end of time, and in every place,\nlast in life, second to death,\nnever alone, found in your breath,\ncontained by earth, water or flame\nmy grandeur so awesome, wind dare not tame,\nnot in your mind, but in your dreams,\nvacant to kings, present to queens. What am I?");
+        rh.SetRiddleQuestion("e");
 
 
         Room d1 = new Room();
@@ -169,7 +171,10 @@ public class Initializer {
         d3.setNorth(br);
 
         return entrance;
+        
     }
+    
+    // now adding the enemies to the map
 
     public static ArrayList<Enemy> createEnemies() {
         Enemy e;
@@ -221,9 +226,6 @@ public class Initializer {
         e.addSpawn(new Enemy("Phantom", 1, 3, 100));
         enemies.add(e);
 
-        e = new Enemy("Living Statue", 15, 3, 50);
-        enemies.add(e);
-
         e = new Enemy("Brittle Statue", 5, 8, 40);
         enemies.add(e);
 
@@ -244,7 +246,38 @@ public class Initializer {
         e.addSpawn(new Enemy("Skeleton", 3, 3, 50));
         e.addSpawn(new Enemy("Skeleton", 3, 3, 50));
         enemies.add(e);
-
+        
+        e = new Enemy("Demon Legionaire", 7, 6, 50);
+        e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30));
+        e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30));
+        enemies.add(e);
+        
+        e = new Enemy("Balrog", 20, 20, 20);
+        enemies.add(e);
+        
+        e = new Enemy("Goblin", 4, 5, 70);
+        enemies.add(e);
+        
+        e = new Enemy("Goblin Theif", 2, 7, 30);
+        enemies.add(e);
+        
+        e = new Enemy("Goblin Clanmaster", 6, 6, 50);
+        enemies.add(e);
+        
+        e = new Enemy("Goblin Scout", 4, 1, 10);
+        e.addSpawn(new Enemy("Goblin", 4, 3, 70));
+        e.addSpawn(new Enemy("Goblin", 4, 3, 70));
+        e = new Enemy("Goblin Clanmaster", 6, 6, 50));
+        enemies.add(e);
+        
+        e = new Enemy("Insect Swarm", 1, 3, 90);
+        enemies.add(e);
+        
+        e = new Enemy("Hag", 4, 3, 25);
+        e.addSpawn(new Enemy("Insect Swarm", 1, 3, 90));
+        e.addSpawn(new Enemy("Rotted Giant", 10, 8, 40));
+        enemies.add(e);
+        
         return enemies;
     }
 
