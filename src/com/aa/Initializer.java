@@ -180,30 +180,45 @@ public class Initializer {
 
         e = new Enemy("Skeleton", 3, 5, 50);
         enemies.add(e);
+        
+        e = new EnemY("Skeleton Mage", 3, 8, 20);
+        enemies.add(e);
 
         e = new Enemy("Orc", 5, 5, 50);
+        enemies.add(e);
+        
+        e = new Enemy("Orc Archer", 5, 7, 25);
+        enemies.add(e);
+        
+        e = new Enemy("Orc Captain", 7, 8, 40);
         enemies.add(e);
 
         e = new Enemy("Cursed Armour", 10, 5, 65);
         enemies.add(e);
 
-        e = new Enemy("Giant Spider", 8, 8, 70);
+        e = new Enemy("Giant Spider", 8, 8, 65);
         enemies.add(e);
+        
+        e = new Enemy("Sentinel", 10, 5, 50);
+        enemeis.add(e);
 
-        e = new Enemy("Lich", 6, 10, 40);
-        e.addSpawn(new Enemy("Skeleton", 3, 5, 50));
+        e = new Enemy("Lich", 6, 6, 20);
+        e.addSpawn(new Enemy("Undead Dragon", 10, 6, 35));
         enemies.add(e);
 
         e = new Enemy("Werewolf", 7, 6, 50);
         enemies.add(e);
 
         e = new Enemy("Vampire", 6, 7, 40);
+        e.addSpawn(new Enemy("Ghoul", 5, 4, 75));
         enemies.add(e);
 
         e = new Enemy("Ghoul", 5, 4, 75);
         enemies.add(e);
 
         e = new Enemy("Phantom", 1, 3, 100);
+        e.addSpawn(new Enemy("Phantom", 1, 3, 100));
+        e.addSpawn(new Enemy("Phantom", 1, 3, 100));
         enemies.add(e);
 
         e = new Enemy("Living Statue", 15, 3, 50);
@@ -215,13 +230,19 @@ public class Initializer {
         e = new Enemy("Cave Bear", 6, 4, 50);
         enemies.add(e);
 
-        e = new Enemy("Parasitic Worm", 2, 6, 40);
+        e = new Enemy("Parasitic Worm", 2, 2, 40);
+        e.addSpawn(new Enemy("Parasitic Worm", 2, 2, 40));
         enemies.add(e);
 
         e = new Enemy("Basilisk", 12, 10, 30);
         enemies.add(e);
 
         e = new Enemy("Wyvern", 8, 7, 40);
+        enemies.add(e);
+        
+        e = new Enemy("Necromancer", 5, 5, 30);
+        e.addSpawn(new Enemy("Skeleton", 3, 3, 50));
+        e.addSpawn(new Enemy("Skeleton", 3, 3, 50));
         enemies.add(e);
 
         return enemies;
