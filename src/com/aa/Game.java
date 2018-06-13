@@ -1,5 +1,7 @@
 package com.aa;
 
+import java.sql.Time;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -48,13 +50,14 @@ public class Game {
     public void attemptToQuitGame(Scanner s) {
         String input = null;
         while (true) {
-            messageln("Are you sure you want to quit? (y/n) ");
+            message("Are you sure you want to quit? (y/n): ");
             input = s.next();
             if ("n".equalsIgnoreCase(input)) {
                 return;
             }
             if ("y".equalsIgnoreCase(input)) {
                 endGame("You lose yourself in the infinite dark...");
+                return;
             }
         }
     }
@@ -65,7 +68,38 @@ public class Game {
         }
     }
 
-    public void movePlayerToRoom(String dir, Room r) {
+    public void fightFoes(ArrayList<Enemy> foes, Scanner s) {
+        messageln("You are fighting the following: ");
+        for (Enemy e : foes) {
+            messageln(e.getType());
+        }
+        messageln("");
+    }
+
+    public void dealWithRandomEncounter(Scanner s) {
+        Random rand = new Random();
+        int r = rand.nextInt(100);
+
+        if (r > 49) {
+            return;
+        }
+        // Encounter!
+        Enemy e = getEnemies().get(rand.nextInt(getEnemies().size()));
+        e.reset();
+
+        messageln("An enemy faces you: " + e.getType() + "!");
+
+        ArrayList<Enemy> foes = new ArrayList<Enemy>();
+        foes.add(e);
+        if (e.hasSpawn()) {
+            foes.addAll(e.getSpawn());
+        }
+
+        fightFoes(foes, s);
+
+    }
+
+    public void movePlayerToRoom(String dir, Room r, Scanner s) {
         if (r == null) {
             messageln("There is nowhere to go!");
             return;
@@ -73,6 +107,14 @@ public class Game {
 
         getPlayer().setRoom(r);
         printCurrentRoomMessage();
+
+        /** Guess what?
+            Good news and bad news.
+            Good news, the playr has moved to the next room.
+            Bad news, there might be a random enemy encounter!
+         */
+
+        dealWithRandomEncounter(s);
     }
 
     public void dealWithDoor(String dir, Room door, Room nextRoom, Scanner s) {
@@ -84,7 +126,7 @@ public class Game {
 
         if (! door.isLocked()) {
             messageln("The door is unlocked and you gor through to the next room.");
-            movePlayerToRoom(dir, nextRoom);
+            movePlayerToRoom(dir, nextRoom, s);
             return;
         }
 
@@ -92,7 +134,7 @@ public class Game {
             if (door.getRiddleQuestion() == null || (door.getRiddleQuestion().isEmpty())) {
                 messageln("Huh! This door used to require answering a riddle to open... it is your lucky day and the door unlocks and you proceed to the next room.");
                 door.setLocked(false);
-                movePlayerToRoom(dir, nextRoom);
+                movePlayerToRoom(dir, nextRoom, s);
                 return;
             }
             int limit = 3;
@@ -105,7 +147,7 @@ public class Game {
                 if (answer.equalsIgnoreCase(door.getRiddleAnswer())) {
                     messageln("You have answered the riddle! The door unlocks and you proceed to the following room.");
                     door.setLocked(false);
-                    movePlayerToRoom(dir, nextRoom);
+                    movePlayerToRoom(dir, nextRoom, s);
                     return;
                 }
                 else {
@@ -122,7 +164,7 @@ public class Game {
                 if (getPlayer().hasKeyId(door.getKeyId())) {
                     messageln("You use the key for this door to open it. You proceed to the next room. ");
                     door.setLocked(false);
-                    movePlayerToRoom(dir, nextRoom);
+                    movePlayerToRoom(dir, nextRoom, s);
                 }
                 else {
                     messageln("You don't have the key for this door. Go somewhere else.");
@@ -131,7 +173,7 @@ public class Game {
             }
             messageln("Huh!, it seems this door does not need a key anymore. It unlocks and you proceed to the next room.");
             door.setLocked(false);
-            movePlayerToRoom(dir, nextRoom);
+            movePlayerToRoom(dir, nextRoom, s);
             return;
 
         }
@@ -149,7 +191,7 @@ public class Game {
             return;
         }
 
-        movePlayerToRoom(dir, nextRoom);
+        movePlayerToRoom(dir, nextRoom, s);
     }
 
 

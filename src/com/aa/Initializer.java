@@ -171,10 +171,68 @@ public class Initializer {
         return entrance;
     }
 
+    public static ArrayList<Enemy> createEnemies() {
+        Enemy e;
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+        e = new Enemy("Troll", 10, 15, 20);
+        enemies.add(e);
+
+        e = new Enemy("Skeleton", 3, 5, 50);
+        enemies.add(e);
+
+        e = new Enemy("Orc", 5, 5, 50);
+        enemies.add(e);
+
+        e = new Enemy("Cursed Armour", 10, 5, 65);
+        enemies.add(e);
+
+        e = new Enemy("Giant Spider", 8, 8, 70);
+        enemies.add(e);
+
+        e = new Enemy("Lich", 6, 10, 40);
+        e.addSpawn(new Enemy("Skeleton", 3, 5, 50));
+        enemies.add(e);
+
+        e = new Enemy("Werewolf", 7, 6, 50);
+        enemies.add(e);
+
+        e = new Enemy("Vampire", 6, 7, 40);
+        enemies.add(e);
+
+        e = new Enemy("Ghoul", 5, 4, 75);
+        enemies.add(e);
+
+        e = new Enemy("Phantom", 1, 3, 100);
+        enemies.add(e);
+
+        e = new Enemy("Living Statue", 15, 3, 50);
+        enemies.add(e);
+
+        e = new Enemy("Brittle Statue", 5, 8, 40);
+        enemies.add(e);
+
+        e = new Enemy("Cave Bear", 6, 4, 50);
+        enemies.add(e);
+
+        e = new Enemy("Parasitic Worm", 2, 6, 40);
+        enemies.add(e);
+
+        e = new Enemy("Basilisk", 12, 10, 30);
+        enemies.add(e);
+
+        e = new Enemy("Wyvern", 8, 7, 40);
+        enemies.add(e);
+
+        return enemies;
+    }
+
     public static Player initializePlayer() {
         Player p = new Player();
-        p.setHealth(12);
+        p.setHp(50);
         p.setDamage(3);
+        p.setAttackRating(65);
+        p.setBlockRating(25);
         return p;
     }
 
@@ -182,64 +240,5 @@ public class Initializer {
         Player p = initializePlayer();
         p.setRoom(createMap());
         return p;
-    }
-
-
-    public static ArrayList<Enemy> createEnemies() {
-        Enemy e;
-        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        
-        e = new Enemy("Troll", 10, 15);
-        enemies.add(e);
-        
-        e = new Enemy("Skeleton", 3, 5);
-        enemies.add(e);
-        
-        e = new Enemy("Orc", 5, 5);
-        enemies.add(e);
-        
-        e = new Enemy("Cursed Armour", 10, 5);
-        enemies.add(e);
-        
-        e = new Enemy("Giant Spider", 8, 8);
-        enemies.add(e);
-        
-        e = new Enemy("Lich", 6, 10);
-        enemies.add(e);
-        
-        e = new Enemy("Werewolf", 7, 6);
-        enemies.add(e);
-        
-        e = new Enemy("Vampire", 6, 7);
-        enemies.add(e);
-        
-        e = new Enemy("Ghoul", 5, 4);
-        enemies.add(e);
-        
-        e = new Enemy("Phantom", 1, 3);
-        enemies.add(e);
-        
-        e = new Enemy("Living Statue", 15, 3);
-        enemies.add(e);
-        
-        e = new Enemy("Brittle Statue", 5, 8);
-        enemies.add(e);
-        
-        e = new Enemy("Cave Bear", 6, 4);
-        enemies.add(e);
-        
-        e = new Enemy("Parasitic Worm", 2, 6);
-        enemies.add(e);
-        
-        e = new Enemy("Basilisk", 12, 10);
-        enemies.add(e);
-        
-        e = new Enemy("Wyvern", 8, 7);
-        enemies.add(e);
-
-        //  e = new Enemy(...
-        // enemies.add(e);
-
-        return enemies;
     }
 }

@@ -11,6 +11,7 @@ public class Room {
     private Room south;
     private Room west;
     private String message;
+    private Enemy boss;
     private boolean locked;
     private String lockType;
     private String keyId;
@@ -72,6 +73,10 @@ public class Room {
         this.message = message;
     }
 
+    public Enemy getBoss() { return boss; }
+
+    public void setBoss(Enemy boss) { this.boss = boss; }
+
     public String getLockType() {
         return lockType;
     }
@@ -132,5 +137,9 @@ public class Room {
             return false;
         }
         return "key".equals(getLockType());
+    }
+
+    public boolean hasBoss() {
+        return getBoss() != null && getBoss().isAlive();
     }
 }

@@ -1,12 +1,15 @@
 package com.aa;
 
 import java.util.HashSet;
+import java.util.Random;
 
 public class Player {
 
     private String name;
-    private int health;
+    private int hp;
     private int damage;
+    private int attackRating;
+    private int blockRating;
 
     private HashSet<String> keyIds;
 
@@ -20,12 +23,12 @@ public class Player {
         this.name = name;
     }
 
-    public int getHealth() {
-        return health;
+    public int getHp() {
+        return hp;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     public int getDamage() {
@@ -36,6 +39,16 @@ public class Player {
         this.damage = damage;
     }
 
+    public int getAttackRating() { return attackRating; }
+
+    public void setAttackRating(int attackRating) { this.attackRating = attackRating; }
+
+    public int getBlockRating() { return blockRating; }
+
+    public void setBlockRating(int blockRating) {
+        this.blockRating = blockRating;
+    }
+
     public HashSet<String> getKeyIds() {
         return keyIds;
     }
@@ -44,19 +57,23 @@ public class Player {
         this.keyIds = keyIDs;
     }
 
-    public void addKeyID(String keyID) {
-        if (getKeyIds() == null) {
-            setKeyIds(new HashSet<String>());
-        }
-        getKeyIds().add(keyID);
-    }
-
     public Room getRoom() {
         return room;
     }
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public boolean isAlive() {
+        return getHp() > 0;
+    }
+
+    public void addKeyID(String keyID) {
+        if (getKeyIds() == null) {
+            setKeyIds(new HashSet<String>());
+        }
+        getKeyIds().add(keyID);
     }
 
     public boolean hasRoom() {
@@ -134,5 +151,28 @@ public class Player {
     public boolean hasKeyId(String id) {
         return getKeyIds() == null && getKeyIds().contains(id);
     }
+
+    public int attemptAttack(Enemy e) {
+        Random rand = new Random();
+        int val = rand.nextInt(100) + 1;
+
+        if (val > (100 - getAttackRating())) {
+            e.takeDamage(getDamage());
+            return getDamage();
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public void takeDamage(int d) {
+        setHp(getHp() - d);
+        if (getHp() < 1) {
+            /**
+             * TODO
+             */
+        }
+    }
+
 
 }
