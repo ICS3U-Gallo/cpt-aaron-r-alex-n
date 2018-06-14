@@ -29,6 +29,8 @@ public class GameUtils {
     }
 
     public static Room createMap() {
+        
+        Enemy b;
 
         /* Here, we're making each room (a total of 15), using the variables from Room.java.
         We do this by giving values to the variables. */
@@ -50,6 +52,7 @@ public class GameUtils {
         kr.setType("chamber");
         kr.setMessage("You enter a well lit chamber, statues of past Dwarven kings look down upon you from the walls.\nA horrid stench fills your nose as you realize that the ground is covered in the bones of those who have passed.\n");
         kr.setKeyId("Glowing Key");
+        kr.b = new Enemy("Abyssmal Knight", 20, 10, 45);
 
 
         Room cr1 = new Room();
@@ -101,6 +104,7 @@ public class GameUtils {
         mr2.setName("King's Court");
         mr2.setType("chamber");
         mr2.setMessage("You enter a large courtroom, dining tables on both sides and a large throne in the centre,\nhowever the ground is covered in slime, and the foul stench makes your stomach turn.\n");
+        mr2.b = new Enemy("Carnivorous Slime", 30, 15, 35);
 
 
         Room lh = new Room();
@@ -143,6 +147,7 @@ public class GameUtils {
         br.setName("Vault of Ashardalon");
         br.setType("chamber");
         br.setMessage("Finally, the vault.\nBones and gold flows out to your feet as you enter.\nThe room is the largest chamber in the entire castle.\nThe heat in the room makes you sweat.\nSmoke quickly fills the room, and as it fades, the great red dragon Ashardalon spreads it's wings in a show of power.\nMagma flows from his mouth and smoke from his nose.\nHe opens his mouth as a fire builds at the back of his throat.\nPrepare for combat!\n");
+        br.b = new Enemy("Red Terror Ashardalon", 50, 20, 20);
 
 
         // now tying it all together
@@ -279,7 +284,7 @@ public class GameUtils {
         e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30));
         enemies.add(e);
         
-        e = new Enemy("Balrog", 20, 20, 20);
+        e = new Enemy("Balrog", 15, 8, 20);
         enemies.add(e);
         
         e = new Enemy("Goblin", 4, 5, 70);
@@ -304,6 +309,8 @@ public class GameUtils {
         e.addSpawn(new Enemy("Insect Swarm", 1, 3, 90));
         e.addSpawn(new Enemy("Rotted Giant", 10, 8, 40));
         enemies.add(e);
+        
+        
         
         return enemies;
     }
