@@ -49,6 +49,7 @@ public class GameUtils {
         kr.setName("Knight Room");
         kr.setType("chamber");
         kr.setMessage("You enter a well lit chamber, statues of past Dwarven kings look down upon you from the walls.\nA horrid stench fills your nose as you realize that the ground is covered in the bones of those who have passed.\n");
+        kr.setKeyId("Glowing Key");
 
 
         Room cr1 = new Room();
@@ -87,6 +88,7 @@ public class GameUtils {
         mr1.setName("Ruins");
         mr1.setType("chamber");
         mr1.setMessage("You enter a cave-like room.\nPillars of Dawrven make spike out of the groud, however ubruptly end near an endless cliff.\nThis is mostlikly where the dragon crawled from the speakless depths of the cave system, and entered the dwarven castle...\n");
+        mr1.setKeyId("Large Iron Key");
 
 
         Room bb = new Room();
