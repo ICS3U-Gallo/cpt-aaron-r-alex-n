@@ -12,7 +12,7 @@ public class GameUtils {
 
     public static int PlayerHp = 150;
     public static int PlayerDamage = 3;
-    public static int PlayerAttackRating = 65;
+    public static int PlayerAttackRating = 75;
     public static int PlayerBlockRating = 25;
 
     public static int getRandomBoundedValue() {
