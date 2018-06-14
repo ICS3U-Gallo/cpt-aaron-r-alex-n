@@ -3,6 +3,8 @@ package com.aa;
 import java.util.HashSet;
 import java.util.Random;
 
+import static com.aa.GameUtils.BoundaryScale;
+
 public class Player {
 
     private String name;
@@ -153,25 +155,18 @@ public class Player {
     }
 
     public int attemptAttack(Enemy e) {
-        Random rand = new Random();
-        int val = rand.nextInt(100) + 1;
-
-        if (val > (100 - getAttackRating())) {
+        int val = GameUtils.getRandomBoundedValue();
+        if (val < getAttackRating()) {
             e.takeDamage(getDamage());
             return getDamage();
         }
-        else {
-            return 0;
-        }
+
+        return 0;
     }
 
-    public void takeDamage(int d) {
+    public boolean takeDamage(int d) {
         setHp(getHp() - d);
-        if (getHp() < 1) {
-            /**
-             * TODO
-             */
-        }
+        return getHp() > 0;
     }
 
 

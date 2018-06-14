@@ -1,8 +1,33 @@
 package com.aa;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Initializer {
+public class GameUtils {
+
+    public static int BoundaryScale = 99;
+    public static int FiftyFiftyChance = 50;
+
+    public static int DoorUnlockChances = 3;
+
+    public static int PlayerHp = 100;
+    public static int PlayerDamage = 3;
+    public static int PlayerAttackRating = 65;
+    public static int PlayerBlockRating = 25;
+
+    public static int getRandomBoundedValue() {
+        Random rand = new Random();
+        return rand.nextInt(BoundaryScale);
+    }
+
+    public static boolean beatsChance(int chance) {
+        return getRandomBoundedValue() < chance;
+    }
+
+    public static boolean getFiftyFiftyChance() {
+        return beatsChance(FiftyFiftyChance);
+    }
+
     public static Room createMap() {
 
         /* Here, we're making each room (a total of 15), using the variables from Room.java.
@@ -37,7 +62,7 @@ public class Initializer {
         rh.setType("corridor");
         rh.setMessage("You walk into a stone hallway, the floor is old and bloodstained, while the walls are covered in long sharp spikes.\n");
         rh.setRiddleQuestion("A stone face carved into the wall says\n'In order to proceed, you must prove your worth.\nAnswer me this riddle, in order to leave safely.\nHowever if you displease me, you will meet your death.\n\nAnswer me this: I began eternity, and ended space,\nat the end of time, and in every place,\nlast in life, second to death,\nnever alone, found in your breath,\ncontained by earth, water or flame\nmy grandeur so awesome, wind dare not tame,\nnot in your mind, but in your dreams,\nvacant to kings, present to queens. What am I?");
-        rh.SetRiddleQuestion("e");
+        rh.setRiddleQuestion("e");
 
 
         Room d1 = new Room();
@@ -186,7 +211,7 @@ public class Initializer {
         e = new Enemy("Skeleton", 3, 5, 50);
         enemies.add(e);
         
-        e = new EnemY("Skeleton Mage", 3, 8, 20);
+        e = new Enemy("Skeleton Mage", 3, 8, 20);
         enemies.add(e);
 
         e = new Enemy("Orc", 5, 5, 50);
@@ -205,7 +230,7 @@ public class Initializer {
         enemies.add(e);
         
         e = new Enemy("Sentinel", 10, 5, 50);
-        enemeis.add(e);
+        enemies.add(e);
 
         e = new Enemy("Lich", 6, 6, 20);
         e.addSpawn(new Enemy("Undead Dragon", 10, 6, 35));
@@ -267,7 +292,7 @@ public class Initializer {
         e = new Enemy("Goblin Scout", 4, 1, 10);
         e.addSpawn(new Enemy("Goblin", 4, 3, 70));
         e.addSpawn(new Enemy("Goblin", 4, 3, 70));
-        e = new Enemy("Goblin Clanmaster", 6, 6, 50));
+        e = new Enemy("Goblin Clanmaster", 6, 6, 50);
         enemies.add(e);
         
         e = new Enemy("Insect Swarm", 1, 3, 90);
@@ -283,10 +308,10 @@ public class Initializer {
 
     public static Player initializePlayer() {
         Player p = new Player();
-        p.setHp(50);
-        p.setDamage(3);
-        p.setAttackRating(65);
-        p.setBlockRating(25);
+        p.setHp(PlayerHp);
+        p.setDamage(PlayerDamage);
+        p.setAttackRating(PlayerAttackRating);
+        p.setBlockRating(PlayerBlockRating);
         return p;
     }
 

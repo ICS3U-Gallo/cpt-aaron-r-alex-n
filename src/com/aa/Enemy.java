@@ -1,7 +1,7 @@
 package com.aa;
 
 import java.util.ArrayList;
-import java.util.Random;
+import static com.aa.GameUtils.BoundaryScale;
 
 public class Enemy {
 
@@ -31,13 +31,9 @@ public class Enemy {
         this.type = type;
     }
 
-    public int getHp() {
-        return hp;
-    }
+    private int getHp() { return hp; }
 
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
+    public void setHp(int hp) { this.hp = hp; }
 
     public int getCurrentHp() { return currentHp; }
 
@@ -80,26 +76,28 @@ public class Enemy {
         }
     }
 
-    public void takeDamage(int d) {
+    public boolean takeDamage(int d) {
         setCurrentHp(getCurrentHp() - d);
-        if (getCurrentHp() < 1) {
-            /**
-             * TODO
-             */
-        }
+        return getCurrentHp() > 0;
     }
 
     public int attemptAttack(Player p) {
-        Random rand = new Random();
-        int val = rand.nextInt(100) + 1;
+        int val = GameUtils.getRandomBoundedValue();
 
-        if (val > (100 - getAttackRating())) {
+        if (val < getAttackRating()) {
             p.takeDamage(getDamage());
             return getDamage();
         }
-        else {
-            return 0;
-        }
+        return 0;
+    }
+
+    public ArrayList<Enemy> asFoes() {
+        ArrayList<Enemy> result = new ArrayList<Enemy>();
+        result.add(this);
+        if (hasSpawn())
+            result.addAll(getSpawn());
+
+        return result;
     }
 
 }

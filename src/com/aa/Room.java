@@ -18,7 +18,7 @@ public class Room {
     private String riddleQuestion;
     private String riddleAnswer;
 
-    /* Now we use getters and setters for each variable in order to retrive and give values to each variable,
+    /* Now we use getters and setters for each variable in order to retrieve and give values to each variable,
     for each separate object */
 
     public String getName() { return name; }
