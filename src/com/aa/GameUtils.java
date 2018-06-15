@@ -3,32 +3,34 @@ package com.aa;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameUtils {
+class GameUtils {
 
-    public static int BoundaryScale = 99;
-    public static int FiftyFiftyChance = 50;
+    static String LotsOfln = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    static int BoundaryScale = 99;
+    static int FiftyFiftyChance = 50;
 
-    public static int DoorUnlockChances = 3;
+    static int DoorUnlockChances = 3;
 
-    public static int PlayerHp = 150;
-    public static int PlayerDamage = 3;
-    public static int PlayerAttackRating = 75;
-    public static int PlayerBlockRating = 25;
+    static int PlayerHp = 150;
+    static int PlayerDamage = 3;
+    static int PlayerAttackRating = 75;
+    static int PlayerBlockRating = 25;
+    static int MaxNumberOfHealingPotions = 5;
 
-    public static int getRandomBoundedValue() {
+    static int getRandomBoundedValue() {
         Random rand = new Random();
         return rand.nextInt(BoundaryScale);
     }
 
-    public static boolean beatsChance(int chance) {
+    static boolean beatsChance(int chance) {
         return getRandomBoundedValue() < chance;
     }
 
-    public static boolean getFiftyFiftyChance() {
+    static boolean getFiftyFiftyChance() {
         return beatsChance(FiftyFiftyChance);
     }
 
-    public static Room createMap() {
+    static Room createMap() {
         
 
         /* Here, we're making each room (a total of 15), using the variables from Room.java.
@@ -51,7 +53,7 @@ public class GameUtils {
         kr.setType("chamber");
         kr.setMessage("You enter a well lit chamber, statues of past Dwarven kings look down upon you from the walls.\nA horrid stench fills your nose as you realize that the ground is covered in the bones of those who have passed.\n");
         kr.setKeyId("Glowing Key");
-        kr.setBoss("Abyssmal Knight", 20, 10, 45);
+        kr.setBoss(new Enemy("Abyssmal Knight", 20, 10, 45, 0, null));
 
 
         Room cr1 = new Room();
@@ -103,7 +105,7 @@ public class GameUtils {
         mr2.setName("King's Court");
         mr2.setType("chamber");
         mr2.setMessage("You enter a large courtroom, dining tables on both sides and a large throne in the centre,\nhowever the ground is covered in slime, and the foul stench makes your stomach turn.\n");
-        mr2.seBoss("Carnivorous Slime", 30, 15, 35);
+        mr2.setBoss(new Enemy("Carnivorous Slime", 30, 15, 35, 0, null));
 
 
         Room lh = new Room();
@@ -146,7 +148,7 @@ public class GameUtils {
         br.setName("Vault of Ashardalon");
         br.setType("chamber");
         br.setMessage("Finally, the vault.\nBones and gold flows out to your feet as you enter.\nThe room is the largest chamber in the entire castle.\nThe heat in the room makes you sweat.\nSmoke quickly fills the room, and as it fades, the great red dragon Ashardalon spreads it's wings in a show of power.\nMagma flows from his mouth and smoke from his nose.\nHe opens his mouth as a fire builds at the back of his throat.\nPrepare for combat!\n");
-        br.seBoss("Red Terror Ashardalon", 50, 20, 20);
+        br.setBoss(new Enemy("Red Terror Ashardalon", 50, 20, 20, 0, null));
 
 
         // now tying it all together
@@ -207,106 +209,106 @@ public class GameUtils {
     
     // now adding the enemies to the map
 
-    public static ArrayList<Enemy> createEnemies() {
+    static ArrayList<Enemy> createEnemies() {
         Enemy e;
-        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        ArrayList enemies = new ArrayList();
 
-        e = new Enemy("Troll", 10, 15, 20);
+        e = new Enemy("Troll", 10, 15, 20, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Skeleton", 3, 5, 50);
+        e = new Enemy("Skeleton", 3, 5, 50, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Skeleton Mage", 3, 8, 20);
+        e = new Enemy("Skeleton Mage", 3, 8, 20, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Orc", 5, 5, 50);
+        e = new Enemy("Orc", 5, 5, 50, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Orc Archer", 5, 7, 25);
+        e = new Enemy("Orc Archer", 5, 7, 25, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Orc Captain", 7, 8, 40);
+        e = new Enemy("Orc Captain", 7, 8, 40, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Cursed Armour", 10, 5, 65);
+        e = new Enemy("Cursed Armour", 10, 5, 65, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Giant Spider", 8, 8, 65);
+        e = new Enemy("Giant Spider", 8, 8, 65, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Sentinel", 10, 5, 50);
+        e = new Enemy("Sentinel", 10, 5, 50, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Lich", 6, 6, 20);
-        e.addSpawn(new Enemy("Undead Dragon", 10, 6, 35));
+        e = new Enemy("Lich", 6, 6, 20, 0, null);
+        e.addSpawn(new Enemy("Undead Dragon", 10, 6, 35, 0, null));
         enemies.add(e);
 
-        e = new Enemy("Werewolf", 7, 6, 50);
+        e = new Enemy("Werewolf", 7, 6, 50, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Vampire", 6, 7, 40);
-        e.addSpawn(new Enemy("Ghoul", 5, 4, 75));
+        e = new Enemy("Vampire", 6, 7, 40, 0, null);
+        e.addSpawn(new Enemy("Ghoul", 5, 4, 75, 0, null));
         enemies.add(e);
 
-        e = new Enemy("Ghoul", 5, 4, 75);
+        e = new Enemy("Ghoul", 5, 4, 75, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Phantom", 1, 3, 100);
-        e.addSpawn(new Enemy("Phantom", 1, 3, 100));
-        e.addSpawn(new Enemy("Phantom", 1, 3, 100));
+        e = new Enemy("Phantom", 1, 3, 100, 0, null);
+        e.addSpawn(new Enemy("Phantom", 1, 3, 100, 0, null));
+        e.addSpawn(new Enemy("Phantom", 1, 3, 100, 0, null));
         enemies.add(e);
 
-        e = new Enemy("Brittle Statue", 5, 8, 40);
+        e = new Enemy("Brittle Statue", 5, 8, 40, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Cave Bear", 6, 4, 50);
+        e = new Enemy("Cave Bear", 6, 4, 50, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Parasitic Worm", 2, 2, 40);
-        e.addSpawn(new Enemy("Parasitic Worm", 2, 2, 40));
+        e = new Enemy("Parasitic Worm", 2, 2, 40, 0, null);
+        e.addSpawn(new Enemy("Parasitic Worm", 2, 2, 40, 0, null));
         enemies.add(e);
 
-        e = new Enemy("Basilisk", 12, 10, 30);
+        e = new Enemy("Basilisk", 12, 10, 30, 0, null);
         enemies.add(e);
 
-        e = new Enemy("Wyvern", 8, 7, 40);
+        e = new Enemy("Wyvern", 8, 7, 40, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Necromancer", 5, 5, 30);
-        e.addSpawn(new Enemy("Skeleton", 3, 3, 50));
-        e.addSpawn(new Enemy("Skeleton", 3, 3, 50));
+        e = new Enemy("Necromancer", 5, 5, 30, 0, null);
+        e.addSpawn(new Enemy("Skeleton", 3, 3, 50, 0, null));
+        e.addSpawn(new Enemy("Skeleton", 3, 3, 50, 0, null));
         enemies.add(e);
         
-        e = new Enemy("Demon Legionaire", 7, 6, 50);
-        e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30));
-        e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30));
+        e = new Enemy("Demon Legionaire", 7, 6, 50, 0, null);
+        e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30, 0, null));
+        e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30, 0, null));
         enemies.add(e);
         
-        e = new Enemy("Balrog", 15, 8, 20);
+        e = new Enemy("Balrog", 15, 8, 20, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Goblin", 4, 5, 70);
+        e = new Enemy("Goblin", 4, 5, 70, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Goblin Theif", 2, 7, 30);
+        e = new Enemy("Goblin Theif", 2, 7, 30, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Goblin Clanmaster", 6, 6, 50);
+        e = new Enemy("Goblin Clanmaster", 6, 6, 50, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Goblin Scout", 4, 1, 10);
-        e.addSpawn(new Enemy("Goblin", 4, 3, 70));
-        e.addSpawn(new Enemy("Goblin", 4, 3, 70));
-        e = new Enemy("Goblin Clanmaster", 6, 6, 50);
+        e = new Enemy("Goblin Scout", 4, 1, 10, 0, null);
+        e.addSpawn(new Enemy("Goblin", 4, 3, 70, 0, null));
+        e.addSpawn(new Enemy("Goblin", 4, 3, 70, 0, null));
+        e = new Enemy("Goblin Clanmaster", 6, 6, 50, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Insect Swarm", 1, 3, 90);
+        e = new Enemy("Insect Swarm", 1, 3, 90, 0, null);
         enemies.add(e);
         
-        e = new Enemy("Hag", 4, 3, 25);
-        e.addSpawn(new Enemy("Insect Swarm", 1, 3, 90));
-        e.addSpawn(new Enemy("Rotted Giant", 10, 8, 40));
+        e = new Enemy("Hag", 4, 3, 25, 0, null);
+        e.addSpawn(new Enemy("Insect Swarm", 1, 3, 90, 0, null));
+        e.addSpawn(new Enemy("Rotted Giant", 10, 8, 40, 0, null));
         enemies.add(e);
         
         
@@ -314,17 +316,9 @@ public class GameUtils {
         return enemies;
     }
 
-    public static Player initializePlayer() {
-        Player p = new Player();
-        p.setHp(PlayerHp);
-        p.setDamage(PlayerDamage);
-        p.setAttackRating(PlayerAttackRating);
-        p.setBlockRating(PlayerBlockRating);
-        return p;
-    }
 
-    public static Player createPlayer() {
-        Player p = initializePlayer();
+    static Player createPlayer() {
+        Player p = new Player();
         p.setRoom(createMap());
         return p;
     }

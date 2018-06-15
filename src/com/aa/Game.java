@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import static com.aa.GameUtils.*;
 
 public class Game {
-    private boolean finished = false;
+    private boolean finished;
+    private Scanner input;
     private Player player;
     private ArrayList<Enemy> enemies;
 
@@ -19,16 +20,23 @@ public class Game {
         System.out.print(m);
     }
 
+    private Game() {
+        setFinished(false);
+        setInput(new Scanner(System.in));
+    }
+
     private boolean isFinished() {
         return finished;
     }
+    private void setFinished(boolean finished) { this.finished = finished; }
     private Player getPlayer() { return player; }
     private void setPlayer(Player player) { this.player = player; }
+    private Scanner getInput() { return input; }
+    private void setInput(Scanner input) { this.input = input; }
+
+
     private ArrayList<Enemy> getEnemies() { return enemies; }
     private void setEnemies(ArrayList<Enemy> enemies) { this.enemies = enemies; }
-    private void finish() {
-        finished = true;
-    }
 
     public static void main(String[] args) {
         Game game = new Game();
@@ -41,15 +49,15 @@ public class Game {
         if (m != null) {
             messageln(m);
         }
-        messageln("The End!");
-        finish();
+        messageln("The End!\n\n");
+        setFinished(true);
     }
 
-    private void attemptToQuitGame(Scanner s) {
+    private void attemptToQuitGame() {
         String input;
         while (true) {
             message("Are you sure you want to quit? (y/n): ");
-            input = s.next();
+            input = getInput().next();
             if ("n".equalsIgnoreCase(input)) {
                 return;
             }
@@ -60,13 +68,95 @@ public class Game {
         }
     }
 
-    private void fightFoes(ArrayList<Enemy> foes, Scanner s) {
+    private boolean foesAttackPlayer(ArrayList<Enemy> foes, boolean blocking) {
+        messageln("You are being attacked!");
+        int dam;
+        for (Enemy foe : foes) {
+            if (foe.isDead()) continue;
 
+            dam = foe.attemptAttack(getPlayer(), blocking);
+            if (dam > 0) {
+                messageln(foe.getType() + " has reduced your health by " + dam + "!");
+                if (getPlayer().isAlive()) {
+                    messageln("Your health is " + getPlayer().getCurrentHp() + " of " + getPlayer().getMaximumHp() + ".");
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                messageln(foe.getType() + " missed the attack!");
+            }
+        }
+        return true;
     }
 
-    private void dealWithRandomEncounter(Scanner s) {
-        if (GameUtils.getFiftyFiftyChance()) return;
+    private boolean fightFoesWithHealingPotions(ArrayList<Enemy> foes) {
+        message("Your health is " + getPlayer().getCurrentHp() +
+                " of " + getPlayer().getMaximumHp() +
+                ". What are you going to do? (A)ttack, (B)lock, Use (H)ealing potion: ");
 
+        String action = getInput().next();
+        if ("a".equalsIgnoreCase(action)) {
+            int atk;
+            for (Enemy foe : foes) {
+                if (foe.isAlive()) {
+                    atk = getPlayer().attemptAttack(foe);
+                    if (atk == 0) {
+                        messageln("");
+                    }
+                }
+            }
+        }
+        if ("b".equalsIgnoreCase(action)) {
+            if (! foesAttackPlayer(foes, true)); {
+                return false;
+            }
+        }
+        if ("h".equalsIgnoreCase(action)) {
+            messageln("You use a healing potion and recover " + getPlayer().useHealingPotion() + " of health!");
+        }
+        return true;
+    }
+
+
+    /**
+     * TODO
+     * @param foes
+     * @return
+     */
+    private boolean fightFoesWithoutHealingPotions(ArrayList<Enemy> foes) {
+        return true;
+    }
+
+    private void fightFoes(ArrayList<Enemy> foes) {
+
+        boolean fighting = true;
+        boolean ffc = GameUtils.getFiftyFiftyChance();
+
+        if (ffc) {
+            if (!(foesAttackPlayer(foes, false))) {
+                messageln("You've DIED!");
+                setFinished(true);
+                return;
+            }
+        }
+
+        String action;
+        int potionIndex;
+        while (fighting) {
+            potionIndex = getPlayer().getHealingPotionIndex();
+            if (potionIndex > -1) {
+                fightFoesWithoutHealingPotions(foes);
+            }
+            else {
+                fightFoesWithHealingPotions(foes);
+            }
+        }
+    }
+
+    private void dealWithRandomEncounter() {
+        if (GameUtils.getFiftyFiftyChance()) return;
 
         // Encounter!
         Random rand = new Random();
@@ -74,19 +164,19 @@ public class Game {
         e = getEnemies().get(rand.nextInt(getEnemies().size()));
         e.reset();
 
-        messageln("An enemy faces you: " + e.getType() + "!");
+        messageln("An enemy " + e.getType() + " faces you!");
         if (e.hasSpawn()) {
-            messageln("And it has companions: ");
-            for (Enemy c : e.getSpawn()) {
-                messageln(e.getType());
+            messageln("And it has companions:");
+            for (Enemy spawn : e.getSpawn()) {
+                messageln(spawn.getType());
             }
         }
 
-        fightFoes(e.asFoes(), s);
+        fightFoes(e.asFoes());
 
     }
 
-    private void movePlayerToRoom(String dir, Room r, Scanner s) {
+    private void movePlayerToRoom(String dir, Room r) {
         if (r == null) {
             messageln("Nowhere to go " + dir);
             return;
@@ -94,10 +184,10 @@ public class Game {
 
         getPlayer().setRoom(r);
         messageln(getPlayer().getRoomMessage());
-        dealWithRandomEncounter(s);
+        dealWithRandomEncounter();
     }
 
-    private void dealWithDoor(String dir, Room door, Room nextRoom, Scanner s) {
+    private void dealWithDoor(String dir, Room door, Room nextRoom) {
         if (door == null) {
             return;
         }
@@ -106,7 +196,7 @@ public class Game {
 
         if (! door.isLocked()) {
             messageln("The door is unlocked and you gor through to the next room.");
-            movePlayerToRoom(dir, nextRoom, s);
+            movePlayerToRoom(dir, nextRoom);
             return;
         }
 
@@ -114,7 +204,7 @@ public class Game {
             if (door.getRiddleQuestion() == null || (door.getRiddleQuestion().isEmpty())) {
                 messageln("Huh! This door used to require answering a riddle to open... it is your lucky day and the door unlocks and you proceed to the next room.");
                 door.setLocked(false);
-                movePlayerToRoom(dir, nextRoom, s);
+                movePlayerToRoom(dir, nextRoom);
                 return;
             }
 
@@ -123,11 +213,11 @@ public class Game {
             messageln("Be careful, you only have " + DoorUnlockChances + " chances. If you fail... certain death! : ");
             for (int i=0; i < DoorUnlockChances; i++) {
                 message(door.getRiddleQuestion() + "(" + (i+1) + " of " + DoorUnlockChances + ")");
-                answer = s.next();
+                answer = getInput().next();
                 if (answer.equalsIgnoreCase(door.getRiddleAnswer())) {
                     messageln("You have answered the riddle! The door unlocks and you proceed to the following room.");
                     door.setLocked(false);
-                    movePlayerToRoom(dir, nextRoom, s);
+                    movePlayerToRoom(dir, nextRoom);
                     return;
                 }
                 else {
@@ -144,7 +234,7 @@ public class Game {
                 if (getPlayer().hasKeyId(door.getKeyId())) {
                     messageln("You use the key for this door to open it. You proceed to the next room. ");
                     door.setLocked(false);
-                    movePlayerToRoom(dir, nextRoom, s);
+                    movePlayerToRoom(dir, nextRoom);
                 }
                 else {
                     messageln("You don't have the key for this door. Go somewhere else.");
@@ -153,62 +243,60 @@ public class Game {
             }
             messageln("Huh!, it seems this door does not need a key anymore. It unlocks and you proceed to the next room.");
             door.setLocked(false);
-            movePlayerToRoom(dir, nextRoom, s);
+            movePlayerToRoom(dir, nextRoom);
 
         }
     }
 
 
-    private void attemptToMovePlayer(String dir, Room nextRoom, Room afterRoom, Scanner s) {
+    private void attemptToMovePlayer(String dir, Room nextRoom, Room afterRoom) {
         if (nextRoom == null) {
             messageln("You cannot go through walls!");
             return;
         }
 
         if (nextRoom.isDoor()) {
-            dealWithDoor(dir, nextRoom, afterRoom, s);
+            dealWithDoor(dir, nextRoom, afterRoom);
             return;
         }
 
-        movePlayerToRoom(dir, nextRoom, s);
+        movePlayerToRoom(dir, nextRoom);
     }
 
 
-    private void getUserInput(Scanner s) {
-        String input = s.next();
-
-        messageln("---------------------------------------------------------\n");
-        if ("x".equalsIgnoreCase(input)) {
-            attemptToQuitGame(s);
+    private void getUserInput() {
+        String playerInput = getInput().next();
+        messageln("\n");
+        if ("x".equalsIgnoreCase(playerInput)) {
+            attemptToQuitGame();
             return;
         }
-        if ("n".equalsIgnoreCase(input)) {
-            attemptToMovePlayer("North", getPlayer().getRoomNorth(), getPlayer().getAfterRoomNorth(), s);
+        if ("n".equalsIgnoreCase(playerInput)) {
+            attemptToMovePlayer("North", getPlayer().getRoomNorth(), getPlayer().getAfterRoomNorth());
             return;
         }
-        if ("s".equalsIgnoreCase(input)) {
-            attemptToMovePlayer("South", getPlayer().getRoomSouth(), getPlayer().getAfterRoomSouth(), s);
+        if ("s".equalsIgnoreCase(playerInput)) {
+            attemptToMovePlayer("South", getPlayer().getRoomSouth(), getPlayer().getAfterRoomSouth());
             return;
         }
-        if ("e".equalsIgnoreCase(input)) {
-            attemptToMovePlayer("East", getPlayer().getRoomEast(), getPlayer().getAfterRoomEast(), s);
+        if ("e".equalsIgnoreCase(playerInput)) {
+            attemptToMovePlayer("East", getPlayer().getRoomEast(), getPlayer().getAfterRoomEast());
             return;
         }
-        if ("w".equalsIgnoreCase(input)) {
-            attemptToMovePlayer("West", getPlayer().getRoomWest(), getPlayer().getAfterRoomWest(), s);
+        if ("w".equalsIgnoreCase(playerInput)) {
+            attemptToMovePlayer("West", getPlayer().getRoomWest(), getPlayer().getAfterRoomWest());
         }
     }
 
     private void play() {
-        Scanner s = new Scanner(System.in);
-
+        messageln(LotsOfln);
         messageln("Welcome to Dungeon Brawler\n");
         messageln("You are a drifter, from a far off land.\nFor many years, you took odd jobs from time to time\nhowever recently, you caught wind of a huge bounty, set up by a king.\nYour task is simple: Kill the red dragon Ashardalon, and free the townfolk of it's terror.\nThe dragon has taken residence in an ancient Dwarven castle, deep underground.\nAs you walk in the endless caverns, you misstep, the floor below you breaks\nand fall down into a room...\n\n");
         messageln(getPlayer().getRoomMessage());
 
         while (! isFinished()) {
-            message("Where would you like to go? (n)orth, (e)ast, (s)outh, (w)est: ");
-            getUserInput(s);
+            message("\nWhere would you like to go? (n)orth, (e)ast, (s)outh, (w)est: ");
+            getUserInput();
         }
     }
 }
