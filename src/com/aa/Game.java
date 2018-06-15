@@ -114,7 +114,7 @@ public class Game {
             }
         }
         if ("h".equalsIgnoreCase(action)) {
-            messageln("You use a healing potion and recover " + getPlayer().useHealingPotion() + " of health!");
+            messageln("You use a healing potion and recover " + getPlayer().useHealingPotion() + " health.");
         }
         return true;
     }
@@ -136,7 +136,7 @@ public class Game {
 
         if (ffc) {
             if (!(foesAttackPlayer(foes, false))) {
-                messageln("You've DIED!");
+                messageln("========\nYOU DIED\n========");
                 setFinished(true);
                 return;
             }
@@ -158,18 +158,19 @@ public class Game {
     private void dealWithRandomEncounter() {
         if (GameUtils.getFiftyFiftyChance()) return;
 
-        // Encounter!
+        // Encounter
         Random rand = new Random();
         Enemy e;
         e = getEnemies().get(rand.nextInt(getEnemies().size()));
         e.reset();
 
-        messageln("An enemy " + e.getType() + " faces you!");
+        messageln("You encounter a " + e.getType() + "!");
         if (e.hasSpawn()) {
-            messageln("And it has companions:");
+            messageln("And it has summoned help:");
             for (Enemy spawn : e.getSpawn()) {
                 messageln(spawn.getType());
             }
+            messageln("Prepare for combat!");
         }
 
         fightFoes(e.asFoes());
@@ -178,7 +179,7 @@ public class Game {
 
     private void movePlayerToRoom(String dir, Room r) {
         if (r == null) {
-            messageln("Nowhere to go " + dir);
+            messageln("There is no path " + dir + ".");
             return;
         }
 
@@ -192,17 +193,17 @@ public class Game {
             return;
         }
 
-        messageln("You are facing a door now.");
+        messageln("You face a door.");
 
         if (! door.isLocked()) {
-            messageln("The door is unlocked and you gor through to the next room.");
+            messageln("You've unlocked the door and proceed to the next room.");
             movePlayerToRoom(dir, nextRoom);
             return;
         }
 
         if (door.isLockTypeRiddle()) {
             if (door.getRiddleQuestion() == null || (door.getRiddleQuestion().isEmpty())) {
-                messageln("Huh! This door used to require answering a riddle to open... it is your lucky day and the door unlocks and you proceed to the next room.");
+                messageln("The doorkeeper forgot the riddle.\nHe allows you to continue to save him the embarrassment.");
                 door.setLocked(false);
                 movePlayerToRoom(dir, nextRoom);
                 return;
@@ -210,38 +211,38 @@ public class Game {
 
             String answer;
             messageln("To unlock this door, you need to enter the answer to the following riddle.");
-            messageln("Be careful, you only have " + DoorUnlockChances + " chances. If you fail... certain death! : ");
+            messageln("You only have " + DoorUnlockChances + " if you fail, you die : ");
             for (int i=0; i < DoorUnlockChances; i++) {
                 message(door.getRiddleQuestion() + "(" + (i+1) + " of " + DoorUnlockChances + ")");
                 answer = getInput().next();
                 if (answer.equalsIgnoreCase(door.getRiddleAnswer())) {
-                    messageln("You have answered the riddle! The door unlocks and you proceed to the following room.");
+                    messageln("You have successfully answered the riddle.\nThe door unlocks and you proceed to the following room.");
                     door.setLocked(false);
                     movePlayerToRoom(dir, nextRoom);
                     return;
                 }
                 else {
-                    messageln("Wrong answer!");
+                    messageln("No.");
                 }
             }
-            endGame("You have failed all the attempts to open this door. Now you die!");
+            endGame("Your futile attempt to open the door has failed.\nThe walls quickly close in on you,\nand you die a slow,\npainful death.");
             return;
         }
 
         if (door.isLockTypeKey()) {
             if (door.getKeyId() != null) {
-                messageln("To unlock this door, you need a key.");
+                messageln("You require a key to open this door.");
                 if (getPlayer().hasKeyId(door.getKeyId())) {
-                    messageln("You use the key for this door to open it. You proceed to the next room. ");
+                    messageln("You use the key you found to unlock the door. You proceed to the next room. ");
                     door.setLocked(false);
                     movePlayerToRoom(dir, nextRoom);
                 }
                 else {
-                    messageln("You don't have the key for this door. Go somewhere else.");
+                    messageln("Your attempt to open the door with your mind has failed.\Go find the key.");
                 }
                 return;
             }
-            messageln("Huh!, it seems this door does not need a key anymore. It unlocks and you proceed to the next room.");
+            messageln("The lock to this door crumbles easily, you proceed to the next room.");
             door.setLocked(false);
             movePlayerToRoom(dir, nextRoom);
 
@@ -251,7 +252,7 @@ public class Game {
 
     private void attemptToMovePlayer(String dir, Room nextRoom, Room afterRoom) {
         if (nextRoom == null) {
-            messageln("You cannot go through walls!");
+            messageln("There is nowhere you can go in that direction.");
             return;
         }
 
