@@ -11,7 +11,7 @@ class GameUtils {
 
     static int DoorUnlockChances = 3;
 
-    static int PlayerHp = 100;
+    static int PlayerHp = 150;
     static int PlayerDamage = 3;
     static int PlayerAttackRating = 75;
     static int PlayerBlockRating = 25;
@@ -53,7 +53,7 @@ class GameUtils {
         kr.setType("chamber");
         kr.setMessage("You enter a well lit chamber, statues of past Dwarven kings look down upon you from the walls.\nA horrid stench fills your nose as you realize that the ground is covered in the bones of those who have passed.\n");
         kr.setKeyId("Glowing Key");
-        kr.setBoss(new Enemy("Abyssmal Knight", 20, 10, 45, 0, null));
+        kr.setBoss(new Enemy("Abyssmal Knight", 20, 10, 45, 20, "Glowing Key"));
 
 
         Room cr1 = new Room();
@@ -92,7 +92,6 @@ class GameUtils {
         mr1.setName("Ruins");
         mr1.setType("chamber");
         mr1.setMessage("You enter a cave-like room.\nPillars of Dawrven make spike out of the groud, however ubruptly end near an endless cliff.\nThis is mostlikly where the dragon crawled from the speakless depths of the cave system, and entered the dwarven castle...\n");
-        mr1.setKeyId("Large Iron Key");
 
 
         Room bb = new Room();
@@ -105,7 +104,7 @@ class GameUtils {
         mr2.setName("King's Court");
         mr2.setType("chamber");
         mr2.setMessage("You enter a large courtroom, dining tables on both sides and a large throne in the centre,\nhowever the ground is covered in slime, and the foul stench makes your stomach turn.\n");
-        mr2.setBoss(new Enemy("Carnivorous Slime", 30, 15, 35, 0, null));
+        mr2.setBoss(new Enemy("Carnivorous Slime", 30, 15, 35, 20, "Large Iron Key"));
 
 
         Room lh = new Room();
@@ -118,6 +117,7 @@ class GameUtils {
         d2.setName("Magic Portal");
         d2.setType("door");
         d2.setMessage("A blue glowing portal stops your path, a keyhole floats in the centre.\nA message at the top explains that going through it without the key,\nwill return you to the start of the tunnel.\n");
+        d2.setKeyId("Glowing Key");
 
 
         Room hw3 = new Room();
@@ -142,6 +142,7 @@ class GameUtils {
         d3.setName("Sealed Door");
         d3.setType("door");
         d3.setMessage("A large seal stops your path.\nNo man can open this by hand, however there is a very large keyhole on the door.\n");
+        d3.setKeyId("Large Iron Key");
 
 
         Room br = new Room();
@@ -213,100 +214,100 @@ class GameUtils {
         Enemy e;
         ArrayList enemies = new ArrayList();
 
-        e = new Enemy("Troll", 10, 15, 20, 0, null);
+        e = new Enemy("Troll", 10, 15, 20, 15, null);
         enemies.add(e);
 
-        e = new Enemy("Skeleton", 3, 5, 50, 0, null);
+        e = new Enemy("Skeleton", 3, 5, 50, 2, null);
         enemies.add(e);
         
-        e = new Enemy("Skeleton Mage", 3, 8, 20, 0, null);
+        e = new Enemy("Skeleton Mage", 3, 8, 20, 5, null);
         enemies.add(e);
 
-        e = new Enemy("Orc", 5, 5, 50, 0, null);
+        e = new Enemy("Orc", 5, 5, 50, 5, null);
         enemies.add(e);
         
-        e = new Enemy("Orc Archer", 5, 7, 25, 0, null);
+        e = new Enemy("Orc Archer", 5, 7, 25, 5, null);
         enemies.add(e);
         
-        e = new Enemy("Orc Captain", 7, 8, 40, 0, null);
+        e = new Enemy("Orc Captain", 7, 8, 40, 10, null);
         enemies.add(e);
 
-        e = new Enemy("Cursed Armour", 10, 5, 65, 0, null);
+        e = new Enemy("Cursed Armour", 10, 5, 65, 5, null);
         enemies.add(e);
 
-        e = new Enemy("Giant Spider", 8, 8, 65, 0, null);
+        e = new Enemy("Giant Spider", 8, 8, 65, 10, null);
         enemies.add(e);
         
-        e = new Enemy("Sentinel", 10, 5, 50, 0, null);
+        e = new Enemy("Sentinel", 10, 5, 50, 5, null);
         enemies.add(e);
 
-        e = new Enemy("Lich", 6, 6, 20, 0, null);
+        e = new Enemy("Lich", 6, 6, 20, 15, null);
         e.addSpawn(new Enemy("Undead Dragon", 10, 6, 35, 0, null));
         enemies.add(e);
 
-        e = new Enemy("Werewolf", 7, 6, 50, 0, null);
+        e = new Enemy("Werewolf", 7, 6, 50, 5, null);
         enemies.add(e);
 
-        e = new Enemy("Vampire", 6, 7, 40, 0, null);
+        e = new Enemy("Vampire", 6, 7, 40, 10, null);
         e.addSpawn(new Enemy("Ghoul", 5, 4, 75, 0, null));
         enemies.add(e);
 
-        e = new Enemy("Ghoul", 5, 4, 75, 0, null);
+        e = new Enemy("Ghoul", 5, 4, 75, 2, null);
         enemies.add(e);
 
-        e = new Enemy("Phantom", 1, 3, 100, 0, null);
+        e = new Enemy("Phantom", 1, 3, 100, 5, null);
         e.addSpawn(new Enemy("Phantom", 1, 3, 100, 0, null));
         e.addSpawn(new Enemy("Phantom", 1, 3, 100, 0, null));
         enemies.add(e);
 
-        e = new Enemy("Brittle Statue", 5, 8, 40, 0, null);
+        e = new Enemy("Brittle Statue", 5, 8, 40, 10, null);
         enemies.add(e);
 
-        e = new Enemy("Cave Bear", 6, 4, 50, 0, null);
+        e = new Enemy("Cave Bear", 6, 4, 50, 2, null);
         enemies.add(e);
 
-        e = new Enemy("Parasitic Worm", 2, 2, 40, 0, null);
-        e.addSpawn(new Enemy("Parasitic Worm", 2, 2, 40, 0, null));
+        e = new Enemy("Parasitic Worm", 2, 2, 40, 2, null);
+        e.addSpawn(new Enemy("Parasitic Worm", 2, 2, 40, 2, null));
         enemies.add(e);
 
-        e = new Enemy("Basilisk", 12, 10, 30, 0, null);
+        e = new Enemy("Basilisk", 12, 10, 30, 15, null);
         enemies.add(e);
 
-        e = new Enemy("Wyvern", 8, 7, 40, 0, null);
+        e = new Enemy("Wyvern", 8, 7, 40, 10, null);
         enemies.add(e);
         
-        e = new Enemy("Necromancer", 5, 5, 30, 0, null);
+        e = new Enemy("Necromancer", 5, 5, 30, 10, null);
         e.addSpawn(new Enemy("Skeleton", 3, 3, 50, 0, null));
         e.addSpawn(new Enemy("Skeleton", 3, 3, 50, 0, null));
         enemies.add(e);
         
-        e = new Enemy("Demon Legionaire", 7, 6, 50, 0, null);
+        e = new Enemy("Demon Legionaire", 7, 6, 50, 5, null);
         e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30, 0, null));
         e.addSpawn(new Enemy("Tortured Soul", 3, 2, 30, 0, null));
         enemies.add(e);
         
-        e = new Enemy("Balrog", 15, 8, 20, 0, null);
+        e = new Enemy("Balrog", 15, 8, 20, 15, null);
         enemies.add(e);
         
-        e = new Enemy("Goblin", 4, 5, 70, 0, null);
+        e = new Enemy("Goblin", 4, 5, 70, 2, null);
         enemies.add(e);
         
-        e = new Enemy("Goblin Theif", 2, 7, 30, 0, null);
+        e = new Enemy("Goblin Theif", 2, 7, 30, 10, null);
         enemies.add(e);
         
-        e = new Enemy("Goblin Clanmaster", 6, 6, 50, 0, null);
+        e = new Enemy("Goblin Clanmaster", 6, 6, 50, 10, null);
         enemies.add(e);
         
-        e = new Enemy("Goblin Scout", 4, 1, 10, 0, null);
-        e.addSpawn(new Enemy("Goblin", 4, 3, 70, 0, null));
-        e.addSpawn(new Enemy("Goblin", 4, 3, 70, 0, null));
-        e = new Enemy("Goblin Clanmaster", 6, 6, 50, 0, null);
+        e = new Enemy("Goblin Scout", 4, 1, 10, 2, null);
+        e.addSpawn(new Enemy("Goblin", 4, 3, 70, 2, null));
+        e.addSpawn(new Enemy("Goblin", 4, 3, 70, 2, null));
+        e = new Enemy("Goblin Clanmaster", 6, 6, 50, 10, null);
         enemies.add(e);
         
-        e = new Enemy("Insect Swarm", 1, 3, 90, 0, null);
+        e = new Enemy("Insect Swarm", 1, 3, 90, 2, null);
         enemies.add(e);
         
-        e = new Enemy("Hag", 4, 3, 25, 0, null);
+        e = new Enemy("Hag", 4, 3, 25, 5, null);
         e.addSpawn(new Enemy("Insect Swarm", 1, 3, 90, 0, null));
         e.addSpawn(new Enemy("Rotted Giant", 10, 8, 40, 0, null));
         enemies.add(e);
