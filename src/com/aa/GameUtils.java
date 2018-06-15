@@ -11,7 +11,7 @@ class GameUtils {
 
     static int DoorUnlockChances = 3;
 
-    static int PlayerHp = 150;
+    static int PlayerHp = 100;
     static int PlayerDamage = 3;
     static int PlayerAttackRating = 75;
     static int PlayerBlockRating = 25;
