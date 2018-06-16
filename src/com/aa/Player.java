@@ -1,18 +1,17 @@
 package com.aa;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import static com.aa.GameUtils.*;
 
 class Player {
-
-    private String name;
     private int maximumHp;
     private int currentHp;
     private int damage;
     private int attackRating;
     private int blockRating;
-    private int[] healingPotions;
+    private ArrayList<Integer> healingPotions;
     private HashSet<String> keys;
     private int gold;
     private Room room;
@@ -23,64 +22,90 @@ class Player {
         setDamage(PlayerDamage);
         setAttackRating(PlayerAttackRating);
         setBlockRating(PlayerBlockRating);
-        setHealingPotions(new int[MaxNumberOfHealingPotions]);
-        setKeys(new HashSet<String>());
+        setHealingPotions(new ArrayList<>(MaxNumberOfHealingPotions));
+        setKeys(new HashSet<>());
         setGold(0);
-    }
-
-    String getName() {
-        return name;
-    }
-
-    void setName(String name) {
-        this.name = name;
     }
 
     int getMaximumHp() {
         return maximumHp;
     }
 
-    private void setMaximumHp(int maximumHp) { this.maximumHp = maximumHp; }
+    private void setMaximumHp(int maximumHp) {
+        this.maximumHp = maximumHp;
+    }
 
-    int getCurrentHp() { return currentHp; }
+    int getCurrentHp() {
+        return currentHp;
+    }
 
-    private void setCurrentHp(int currentHp) { this.currentHp = currentHp; }
+    private void setCurrentHp(int currentHp) {
+        this.currentHp = currentHp;
+    }
 
-    private int getDamage() { return damage; }
+    private int getDamage() {
+        return damage;
+    }
 
     private void setDamage(int damage) {
         this.damage = damage;
     }
 
-    private int getAttackRating() { return attackRating; }
+    private int getAttackRating() {
+        return attackRating;
+    }
 
-    private void setAttackRating(int attackRating) { this.attackRating = attackRating; }
+    private void setAttackRating(int attackRating) {
+        this.attackRating = attackRating;
+    }
 
-    private int getBlockRating() { return blockRating; }
+    private int getBlockRating() {
+        return blockRating;
+    }
 
-    private int[] getHealingPotions() { return healingPotions; }
+    private ArrayList<Integer> getHealingPotions() {
+        return healingPotions;
+    }
 
-    private void setHealingPotions(int[] healingPotions) { this.healingPotions = healingPotions; }
+    private void setHealingPotions(ArrayList<Integer> healingPotions) {
+        this.healingPotions = healingPotions;
+    }
 
-    private void setBlockRating(int blockRating) { this.blockRating = blockRating; }
+    private void setBlockRating(int blockRating) {
+        this.blockRating = blockRating;
+    }
 
-    private HashSet<String> getKeys() { return keys; }
+    private HashSet<String> getKeys() {
+        return keys;
+    }
 
-    private void setKeys(HashSet<String> keys) { this.keys = keys; }
+    private void setKeys(HashSet<String> keys) {
+        this.keys = keys;
+    }
 
-    int getGold() { return gold; }
+    int getGold() {
+        return gold;
+    }
 
-    private void setGold(int gold) { this.gold = gold; }
+    private void setGold(int gold) {
+        this.gold = gold;
+    }
 
-    private Room getRoom() { return room; }
+    private Room getRoom() {
+        return room;
+    }
 
-    void setRoom(Room room) { this.room = room; }
+    void setRoom(Room room) {
+        this.room = room;
+    }
 
-    boolean isAlive() {
+    private boolean isAlive() {
         return getCurrentHp() > 0;
     }
 
-    boolean isDead() { return !isAlive(); }
+    boolean isDead() {
+        return !isAlive();
+    }
 
     void addKey(String key) {
         getKeys().add(key);
@@ -92,11 +117,10 @@ class Player {
 
     String getRoomMessage() {
         if (hasRoom()) {
-            return getRoom().getMessage();
+            return getRoom().getName() + ": " + getRoom().getMessage();
         }
         return "";
     }
-
 
     Room getRoomNorth() {
         if (hasRoom()) {
@@ -166,12 +190,11 @@ class Player {
         If the attack succeeds, return the damage done to the enemy, if it fails, return zero.
      */
     int attemptAttack(Enemy enemy) {
-        int chance = GameUtils.getRandomBoundedValue();
+        int chance = GameUtils.getRandomBoundedValue(BoundaryScale);
         if (chance < getAttackRating()) {
             enemy.takeDamage(getDamage());
             return getDamage();
         }
-
         return 0;
     }
 
@@ -186,48 +209,33 @@ class Player {
     }
 
 
-    int getHealingPotionIndex() {
-        int each;
-        for (int i = 0; i < getHealingPotions().length; i ++) {
-            each = getHealingPotions()[i];
-            if (each > 0) return i;
-        }
-        return -1;
+    boolean hasHealingPotions() {
+        return getHealingPotions() != null && ! getHealingPotions().isEmpty();
     }
 
     int useHealingPotion() {
-        if (isHpMaximum()) return 0;
-        int potion;
+        if (isHpMaximum() || (! hasHealingPotions())) return 0;
+
+        Integer potion = getHealingPotions().remove(0);
         int increment;
-        for (int i = 0; i < getHealingPotions().length; i ++) {
-            potion = getHealingPotions()[i];
-            if (potion > 0) {
-                increment = Math.min(getMaximumHp() - getCurrentHp(), potion);
-                setCurrentHp(getCurrentHp() + increment);
-                getHealingPotions()[i] = 0;
-                return increment;
-            }
+        if (potion > 0) {
+            increment = Math.min(getMaximumHp() - getCurrentHp(), potion);
+            setCurrentHp(getCurrentHp() + increment);
+            return increment;
         }
         return -1;
     }
 
     boolean addHealthPotion(int potion) {
-        if (potion == 0) return false;
-        int each;
-        for (int i = 0; i < getHealingPotions().length; i ++) {
-            each = getHealingPotions()[i];
-            if (each == 0) {
-                getHealingPotions()[i] = potion;
-                return true;
-            }
-        }
-        return false;
+        if (potion == 0 || (getHealingPotions().size() == MaxNumberOfHealingPotions)) return false;
+        getHealingPotions().add(potion);
+        return true;
     }
 
     int beingAttacked(Enemy foe, boolean blocking) {
         int blockChance;
         if (blocking) {
-            blockChance = GameUtils.getRandomBoundedValue();
+            blockChance = GameUtils.getRandomBoundedValue(BoundaryScale);
             if (blockChance < getBlockRating()) {
                 return 0;
             }

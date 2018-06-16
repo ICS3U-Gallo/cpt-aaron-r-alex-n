@@ -1,6 +1,6 @@
 package com.aa;
 
-public class Room {
+class Room {
     private String name;
     private String type;
     private Room north;
@@ -157,7 +157,6 @@ public class Room {
     boolean isCorridor() {
         return getType().equals("corridor");
     }
-
 
     void setLockTypeRiddle() {
         if (isDoor()) {

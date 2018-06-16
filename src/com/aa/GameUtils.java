@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 class GameUtils {
-
-    static String LotsOfln = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     static int BoundaryScale = 99;
 
     static int DoorUnlockChances = 3;
@@ -13,30 +11,19 @@ class GameUtils {
     static int PlayerHp = 150;
     static int PlayerDamage = 3;
     static int PlayerAttackRating = 60;
-    static int PlayerBlockRating = 100;
+    static int PlayerBlockRating = 75;
     static int MaxNumberOfHealingPotions = 5;
 
     static int getRandomBoundedValue(int boundary) {
         Random rand = new Random();
         return rand.nextInt(boundary);
     }
-    static int getRandomBoundedValue() {
-        return getRandomBoundedValue(BoundaryScale);
-    }
-
-    private static boolean beatsChance(int chance) {
-        return getRandomBoundedValue() < chance;
-    }
 
     static boolean getFiftyFiftyChance() {
-        return beatsChance(50);
+        return getRandomBoundedValue(BoundaryScale) < 50;
     }
 
     private static Room createMap() {
-        
-
-        /* Here, we're making each room (a total of 15), using the variables from Room.java.
-        We do this by giving values to the variables. */
 
         Room entrance = Room.getNewChamber("Entrance");
         entrance.setMessage("You enter a poorly lit room with a large hole in the roof, a warm breeze comes over you.\nYou can go north, east, and west.\n");
@@ -180,7 +167,7 @@ class GameUtils {
 
     static ArrayList<Enemy> createEnemies() {
         Enemy e;
-        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        ArrayList<Enemy> enemies = new ArrayList<>();
 
         e = new Enemy("Troll", 10, 15, 20, 15, null, 20);
         enemies.add(e);

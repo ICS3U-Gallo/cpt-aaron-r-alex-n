@@ -6,10 +6,6 @@ import java.util.ArrayList;
 import static com.aa.GameUtils.*;
 
 public class Game {
-    private static String MovementMessage1 = "\nWhat would you like to do? Go (n)orth, (e)ast, (s)outh, (w)est, or use a (h)ealing potion?: ";
-    private static String MovementMessage2 = "\nWhat would you like to do? Go (n)orth, (e)ast, (s)outh, (w)est?";
-
-
     private boolean finished;
     private Scanner input;
     private Player player;
@@ -31,15 +27,34 @@ public class Game {
     private boolean isFinished() {
         return finished;
     }
-    private void setFinished(boolean finished) { this.finished = finished; }
-    private Player getPlayer() { return player; }
-    private void setPlayer(Player player) { this.player = player; }
-    private Scanner getInput() { return input; }
-    private void setInput(Scanner input) { this.input = input; }
 
+    private void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 
-    private ArrayList<Enemy> getEnemies() { return enemies; }
-    private void setEnemies(ArrayList<Enemy> enemies) { this.enemies = enemies; }
+    private Player getPlayer() {
+        return player;
+    }
+
+    private void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    private Scanner getInput() {
+        return input;
+    }
+
+    private void setInput(Scanner input) {
+        this.input = input;
+    }
+
+    private ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    private void setEnemies(ArrayList<Enemy> enemies) {
+        this.enemies = enemies;
+    }
 
     public static void main(String[] args) {
         Game game = new Game();
@@ -133,6 +148,10 @@ public class Game {
         }
     }
 
+    private void playerUsesHealingPotion() {
+        messageln("You use a healing potion and recover " + getPlayer().useHealingPotion() + " health.\n");
+    }
+
     /*
       Turn for player to decide what to do when facing the list of foes.
       Return 0 if all enemies are killed by player (if the player decided to attack).
@@ -151,9 +170,8 @@ public class Game {
             encounter = encounter + ", Use (h)ealing potion: ";
         }
         else {
-            encounter = encounter + ": \n";
+            encounter = encounter + ": ";
         }
-
         message(encounter);
 
         String action = getInput().next();
@@ -184,7 +202,7 @@ public class Game {
         }
 
         if (withPotions && "h".equalsIgnoreCase(action)) {
-            messageln("You use a healing potion and recover " + getPlayer().useHealingPotion() + " health.\n");
+            playerUsesHealingPotion();
         }
         return foesSize;
     }
@@ -214,7 +232,7 @@ public class Game {
         int currentFoes = outcome;
         while(outcome > 0) {
             block = false;
-            outcome = playerTurnWithFoes(foes, (getPlayer().getHealingPotionIndex() > -1));
+            outcome = playerTurnWithFoes(foes, (getPlayer().hasHealingPotions()));
 
             if (outcome == -1)
                 block = true;
@@ -224,7 +242,7 @@ public class Game {
                 else
                     currentFoes = outcome;
             }
-            messageln("Now it is the enemies turn... ");
+            messageln("Now, it is the enemies turn... \n");
             if (foesAttackPlayer(foes, block))
                 outcome = currentFoes;
             else
@@ -260,7 +278,6 @@ public class Game {
         if (door == null) {
             return;
         }
-
         messageln("You face a door.");
 
         if (! door.isLocked()) {
@@ -279,9 +296,9 @@ public class Game {
 
             String answer;
             messageln("To unlock this door, you need to enter the answer to the following riddle.");
-            messageln("You only have " + DoorUnlockChances + " if you fail, you die : ");
+            messageln("You only have " + DoorUnlockChances + "chances.  If you fail, you die!: \n");
             for (int i=0; i < DoorUnlockChances; i++) {
-                message(door.getRiddleQuestion() + "(" + (i+1) + " of " + DoorUnlockChances + ")");
+                message(door.getRiddleQuestion() + "(" + (i+1) + " of " + DoorUnlockChances + "): ");
                 answer = getInput().next();
                 if (answer.equalsIgnoreCase(door.getRiddleAnswer())) {
                     messageln("You have successfully answered the riddle.\nThe door unlocks and you proceed to the following room.");
@@ -323,7 +340,6 @@ public class Game {
             messageln("There is nowhere you can go in that direction.");
             return;
         }
-
         if (nextRoom.isDoor()) {
             dealWithDoor(dir, nextRoom, afterRoom);
             return;
@@ -333,7 +349,16 @@ public class Game {
     }
 
 
-    private void getUserInput() {
+    private void playerTurn(boolean withPotions) {
+
+        messageln("HP: " + getPlayer().getCurrentHp() + " of " + getPlayer().getMaximumHp() + " Gold: " + getPlayer().getGold());
+
+        if (withPotions) {
+            message("\nWhat would you like to do? Go (n)orth, (e)ast, (s)outh, (w)est, or use a (h)ealing potion?: ");
+        }
+        else {
+            message("\nWhat would you like to do? Go (n)orth, (e)ast, (s)outh or (w)est?: ");
+        }
         String playerInput = getInput().next();
         messageln("\n");
         if ("x".equalsIgnoreCase(playerInput)) {
@@ -355,17 +380,20 @@ public class Game {
         if ("w".equalsIgnoreCase(playerInput)) {
             attemptToMovePlayer("West", getPlayer().getRoomWest(), getPlayer().getAfterRoomWest());
         }
+        if(withPotions && "h".equalsIgnoreCase(playerInput)) {
+            playerUsesHealingPotion();
+        }
     }
 
     private void play() {
-        messageln(LotsOfln);
-        messageln("Welcome to Dungeon Brawler\n");
+        for (int i = 0; i < 100; i ++) message("\n");
+
+        messageln("Welcome to Dungeon Brawler!\n");
         messageln("You are a drifter, from a far off land.\nFor many years, you took odd jobs from time to time\nhowever recently, you caught wind of a huge bounty, set up by a king.\nYour task is simple: Kill the red dragon Ashardalon, and free the townfolk of it's terror.\nThe dragon has taken residence in an ancient Dwarven castle, deep underground.\nAs you walk in the endless caverns, you misstep, the floor below you breaks\nand fall down into a room...\n\n");
         messageln(getPlayer().getRoomMessage());
 
         while (! isFinished()) {
-            message(MovementMessage1);
-            getUserInput();
+            playerTurn(getPlayer().hasHealingPotions());
         }
     }
 }
