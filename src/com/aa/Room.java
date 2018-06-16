@@ -14,132 +14,186 @@ public class Room {
     private Enemy boss;
     private boolean locked;
     private String lockType;
-    private String keyId;
+    private String key;
     private String riddleQuestion;
     private String riddleAnswer;
+
+    private Room() {
+        super();
+    }
+
+    static Room getNewChamber(String name) {
+        Room r = new Room();
+        r.setType("chamber");
+        r.setName(name);
+        return r;
+    }
+
+    static Room getNewCorridor(String name) {
+        Room r = new Room();
+        r.setType("corridor");
+        r.setName(name);
+        return r;
+    }
+
+    static Room getNewLockedDoor(String name) {
+        Room r = new Room();
+        r.setType("door");
+        r.setName(name);
+        r.setLocked(true);
+        return r;
+    }
 
     /* Now we use getters and setters for each variable in order to retrieve and give values to each variable,
     for each separate object */
 
-    public String getName() { return name; }
+    String getName() { return name; }
 
-    public void setName(String name) { this.name = name; }
+    void setName(String name) { this.name = name; }
 
-    public String getType() {
+    String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    private void setType(String type) {
         this.type = type;
     }
 
-    public Room getNorth() {
+    Room getNorth() {
         return north;
     }
 
-    public void setNorth(Room north) {
+    void setNorth(Room north) {
         this.north = north;
     }
 
-    public Room getEast() {
+    Room getEast() {
         return east;
     }
 
-    public void setEast(Room east) {
+    void setEast(Room east) {
         this.east = east;
     }
 
-    public Room getSouth() {
+    Room getSouth() {
         return south;
     }
 
-    public void setSouth(Room south) {
+    void setSouth(Room south) {
         this.south = south;
     }
 
-    public Room getWest() {
+    Room getWest() {
         return west;
     }
 
-    public void setWest(Room west) {
+    void setWest(Room west) {
         this.west = west;
     }
 
-    public String getMessage() {
+    String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    void setMessage(String message) {
         this.message = message;
     }
 
-    public Enemy getBoss() { return boss; }
+    Enemy getBoss() { return boss; }
 
-    public void setBoss(Enemy boss) { this.boss = boss; }
+    void setBoss(Enemy boss) { this.boss = boss; }
 
-    public String getLockType() {
+    String getLockType() {
         return lockType;
     }
 
-    public void setLockType(String lockType) {
+    void setLockType(String lockType) {
         this.lockType = lockType;
     }
 
-    public boolean isLocked() { return locked; }
+    boolean isLocked() { return locked; }
 
-    public void setLocked(boolean locked) { this.locked = locked; }
+    private void setLocked(boolean locked) { this.locked = locked; }
 
-    public String getKeyId() {
-        return keyId;
+    String getKey() {
+        return key;
     }
 
-    public void setKeyId(String keyId) {
-        this.keyId = keyId;
+    void setKey(String key) {
+        this.key = key;
     }
 
-    public String getRiddleQuestion() {
+    String getRiddleQuestion() {
         return riddleQuestion;
     }
 
-    public void setRiddleQuestion(String riddleQuestion) {
+    void setRiddleQuestion(String riddleQuestion) {
         this.riddleQuestion = riddleQuestion;
     }
 
-    public String getRiddleAnswer() {
+    String getRiddleAnswer() {
         return riddleAnswer;
     }
 
-    public void setRiddleAnswer(String riddleAnswer) {
+    void setRiddleAnswer(String riddleAnswer) {
         this.riddleAnswer = riddleAnswer;
     }
 
-    public boolean isDoor() {
+    boolean isDoor() {
         return getType().equals("door");
     }
 
-    public boolean isChamber() {
+    boolean isChamber() {
         return getType().equals("chamber");
     }
 
-    public boolean isCorridor() {
+    boolean isCorridor() {
         return getType().equals("corridor");
     }
-    
 
-    public boolean isLockTypeRiddle() {
+
+    void setLockTypeRiddle() {
+        if (isDoor()) {
+            setLockType("riddle");
+        }
+    }
+
+    void setLockTypeKey() {
+        if (isDoor()) {
+            setLockType("key");
+        }
+    }
+
+    boolean isLockTypeRiddle() {
         if (! isDoor()) {
             return false;
         }
         return "riddle".equals(getLockType());
     }
-    public boolean isLockTypeKey() {
+    boolean isLockTypeKey() {
         if (! isDoor()) {
             return false;
         }
         return "key".equals(getLockType());
     }
 
-    public boolean hasBoss() {
+    void unlock() {
+        if (!isDoor()) return;
+        setLocked(false);
+    }
+
+    boolean hasBoss() {
         return getBoss() != null && getBoss().isAlive();
+    }
+
+    boolean hasKey() {
+        return isDoor() && isLockTypeKey() && (getKey() != null);
+    }
+
+    void setupBoss(Enemy boss) {
+        setBoss(boss);
+        if (boss != null) {
+            boss.setBoss(true);
+        }
     }
 }
