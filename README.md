@@ -2,6 +2,10 @@
 cpt-aaron-r-alex-n created by GitHub Classroom
 
 NOTE: Going North in the Ruins area will reveal a secret optional path.
+This area is very tough, long, and unecessary, however we had the time to make it, so we did.
+It was done only for fun.
+The area adds 35 rooms on top of the 15 from the original "main" game.
+I am very sorry if it takes a long time to go through it.
 
 
 This is a video game that both Alex and I made. 
