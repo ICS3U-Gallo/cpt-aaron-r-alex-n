@@ -35,7 +35,7 @@ class GameUtils {
 
         Room kr = Room.getNewChamber("Knight Room");
         kr.setMessage("You enter a well lit chamber, statues of past Dwarven kings look down upon you from the walls.\nA horrid stench fills your nose as you realize that the ground is covered in the bones of those who have passed.\nYou can go east or south.\n");
-        kr.setupBoss(new Enemy("Abyssmal Knight", 20, 10, 45, 20, "Glowing Key", 30));
+        kr.setBoss(new Boss(false,"Abyssmal Knight", 20, 10, 45, 20, "Glowing Key", 30));
 
 
         Room cr1 = Room.getNewChamber("Hidden Chamber");
@@ -71,7 +71,7 @@ class GameUtils {
 
         Room mr2 = Room.getNewChamber("King's Court");
         mr2.setMessage("You enter a large courtroom, dining tables on both sides and a large throne in the centre,\nhowever the ground is covered in slime, and the foul stench makes your stomach turn.\nYou can go east, south, or west.\n");
-        mr2.setupBoss(new Enemy("Carnivorous Slime", 30, 15, 35, 20, "Large Iron Key", 40));
+        mr2.setBoss(new Boss(false,"Carnivorous Slime", 30, 15, 35, 20, "Large Iron Key", 40));
 
 
         Room lh = Room.getNewCorridor("Looping Hallway");
@@ -104,7 +104,7 @@ class GameUtils {
 
         Room br = Room.getNewChamber("Vault of Ashardalon");
         br.setMessage("Finally, the vault.\nBones and gold flows out to your feet as you enter.\nThe room is the largest chamber in the entire castle.\nThe heat in the room makes you sweat.\nSmoke quickly fills the room, and as it fades, the great red dragon Ashardalon spreads it's wings in a show of power.\nMagma flows from his mouth and smoke from his nose.\nHe opens his mouth as a fire builds at the back of his throat.\nPrepare for combat!\n");
-        br.setupBoss(new Enemy("Red Terror Ashardalon", 50, 20, 20, 0, null, 100));
+        br.setBoss(new Boss(true,"Red Terror Ashardalon", 50, 20, 20, 0, null, 100));
 
 
         // now tying it all together

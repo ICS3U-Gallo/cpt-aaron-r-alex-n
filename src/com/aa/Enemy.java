@@ -6,7 +6,6 @@ import static com.aa.GameUtils.BoundaryScale;
 
 class Enemy {
     private String type;
-    private boolean boss;
     private int maximumHp;
     private int currentHp;
     private int damage;
@@ -19,9 +18,8 @@ class Enemy {
     /*
     Creates an Enemy instance with all the required parameters except for "boss".
      */
-    Enemy(String type, int maximumHp, int damage, int attackRating, int healingPotionDrop, String keyDrop, int goldDrop) {
+    protected Enemy(String type, int maximumHp, int damage, int attackRating, int healingPotionDrop, String keyDrop, int goldDrop) {
         setType(type);
-        setBoss(false);
         setMaximumHp(maximumHp);
         setCurrentHp(maximumHp);
         setDamage(damage);
@@ -38,14 +36,6 @@ class Enemy {
 
     private void setType(String type) {
         this.type = type;
-    }
-
-    private boolean isBoss() {
-        return boss;
-    }
-
-    void setBoss(boolean boss) {
-        this.boss = boss;
     }
 
     private int getMaximumHp() {
@@ -173,9 +163,6 @@ class Enemy {
 
     String getTitle(boolean capitalized) {
         String t = (getType() == null || getType().isEmpty()) ? "Monster" : getType();
-        if (isBoss()) {
-            return t;
-        }
         String prefix;
         if (getType() != null && "AaEeIiOoUu".contains(getType().substring(0, 1))) {
             prefix = capitalized ? "An " : "an ";
