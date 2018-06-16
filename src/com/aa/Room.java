@@ -8,6 +8,7 @@ class Room {
     private Room south;
     private Room west;
     private String message;
+    private Chest chest;
     private Boss boss;
     private boolean locked;
     private String lockType;
@@ -100,6 +101,14 @@ class Room {
         this.message = message;
     }
 
+    Chest getChest() {
+        return chest;
+    }
+
+    void setChest(Chest chest) {
+        this.chest = chest;
+    }
+
     Boss getBoss() {
         return boss;
     }
@@ -188,6 +197,10 @@ class Room {
     void unlock() {
         if (!isDoor()) return;
         setLocked(false);
+    }
+
+    boolean hasChest() {
+        return getChest() != null && getChest().notEmpty();
     }
 
     boolean hasBoss() {

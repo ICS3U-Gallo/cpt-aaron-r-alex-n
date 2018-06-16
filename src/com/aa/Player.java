@@ -99,7 +99,7 @@ class Player {
         this.room = room;
     }
 
-    private boolean isAlive() {
+    boolean isAlive() {
         return getCurrentHp() > 0;
     }
 
@@ -226,7 +226,7 @@ class Player {
         return -1;
     }
 
-    boolean addHealthPotion(int potion) {
+    boolean addHealingPotion(int potion) {
         if (potion == 0 || (getHealingPotions().size() == MaxNumberOfHealingPotions)) return false;
         getHealingPotions().add(potion);
         return true;
