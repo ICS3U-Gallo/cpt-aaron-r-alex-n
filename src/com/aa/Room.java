@@ -1,9 +1,6 @@
 package com.aa;
 
 public class Room {
-
-    // We need to declare private variables, that way they can only be called in this class
-
     private String name;
     private String type;
     private Room north;
@@ -47,11 +44,15 @@ public class Room {
     /* Now we use getters and setters for each variable in order to retrieve and give values to each variable,
     for each separate object */
 
-    String getName() { return name; }
+    String getName() {
+        return name;
+    }
 
-    void setName(String name) { this.name = name; }
+    private void setName(String name) {
+        this.name = name;
+    }
 
-    String getType() {
+    private String getType() {
         return type;
     }
 
@@ -99,21 +100,27 @@ public class Room {
         this.message = message;
     }
 
-    Enemy getBoss() { return boss; }
+    Enemy getBoss() {
+        return boss;
+    }
 
-    void setBoss(Enemy boss) { this.boss = boss; }
+    private void setBoss(Enemy boss) { this.boss = boss; }
 
-    String getLockType() {
+    private String getLockType() {
         return lockType;
     }
 
-    void setLockType(String lockType) {
+    private void setLockType(String lockType) {
         this.lockType = lockType;
     }
 
-    boolean isLocked() { return locked; }
+    boolean isLocked() {
+        return locked;
+    }
 
-    private void setLocked(boolean locked) { this.locked = locked; }
+    private void setLocked(boolean locked) {
+        this.locked = locked;
+    }
 
     String getKey() {
         return key;

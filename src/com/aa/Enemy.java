@@ -2,8 +2,9 @@ package com.aa;
 
 import java.util.ArrayList;
 
-class Enemy {
+import static com.aa.GameUtils.BoundaryScale;
 
+class Enemy {
     private String type;
     private boolean boss;
     private int maximumHp;
@@ -15,59 +16,101 @@ class Enemy {
     private int goldDrop;
     private ArrayList<Enemy> spawn;
 
-
+    /*
+    Creates an Enemy instance with all the required parameters except for "boss".
+     */
     Enemy(String type, int maximumHp, int damage, int attackRating, int healingPotionDrop, String keyDrop, int goldDrop) {
         setType(type);
+        setBoss(false);
         setMaximumHp(maximumHp);
         setCurrentHp(maximumHp);
         setDamage(damage);
         setAttackRating(attackRating);
         setHealingPotionDrop(healingPotionDrop);
         setKeyDrop(keyDrop);
-        setGoldDrop(0);
-        setSpawn(new ArrayList<Enemy>());
+        setGoldDrop(goldDrop);
+        setSpawn(new ArrayList<>());
     }
 
+    String getType() {
+        return type;
+    }
 
-    String getType() { return type; }
+    private void setType(String type) {
+        this.type = type;
+    }
 
-    private void setType(String type) { this.type = type; }
+    private boolean isBoss() {
+        return boss;
+    }
 
-    boolean isBoss() { return boss; }
+    void setBoss(boolean boss) {
+        this.boss = boss;
+    }
 
-    void setBoss(boolean boss) { this.boss = boss; }
+    private int getMaximumHp() {
+        return maximumHp;
+    }
 
-    private int getMaximumHp() { return maximumHp; }
+    private void setMaximumHp(int maximumHp) {
+        this.maximumHp = maximumHp;
+    }
 
-    private void setMaximumHp(int maximumHp) { this.maximumHp = maximumHp; }
+    int getCurrentHp() {
+        return currentHp;
+    }
 
-    int getCurrentHp() { return currentHp; }
+    private void setCurrentHp(int currentHp) {
+        this.currentHp = currentHp;
+    }
 
-    private void setCurrentHp(int currentHp) { this.currentHp = currentHp; }
+    int getDamage() {
+        return damage;
+    }
 
-    int getDamage() { return damage; }
+    private void setDamage(int damage) {
+        this.damage = damage;
+    }
 
-    private void setDamage(int damage) { this.damage = damage; }
+    private int getAttackRating() {
+        return attackRating;
+    }
 
-    private int getAttackRating() { return attackRating; }
+    private void setAttackRating(int attackRating) {
+        this.attackRating = attackRating;
+    }
 
-    private void setAttackRating(int attackRating) { this.attackRating = attackRating; }
+    int getHealingPotionDrop() {
+        return healingPotionDrop;
+    }
 
-    int getHealingPotionDrop() { return healingPotionDrop; }
+    private void setHealingPotionDrop(int healingPotionDrop) {
+        this.healingPotionDrop = healingPotionDrop;
+    }
 
-    private void setHealingPotionDrop(int healingPotionDrop) { this.healingPotionDrop = healingPotionDrop; }
+    String getKeyDrop() {
+        return keyDrop;
+    }
 
-    String getKeyDrop() { return keyDrop; }
+    private void setKeyDrop(String keyDrop) {
+        this.keyDrop = keyDrop;
+    }
 
-    private void setKeyDrop(String keyDrop) { this.keyDrop = keyDrop; }
+    int getGoldDrop() {
+        return goldDrop;
+    }
 
-    int getGoldDrop() { return goldDrop; }
+    private void setGoldDrop(int goldDrop) {
+        this.goldDrop = goldDrop;
+    }
 
-    private void setGoldDrop(int goldDrop) { this.goldDrop = goldDrop; }
+    ArrayList<Enemy> getSpawn() {
+        return spawn;
+    }
 
-    ArrayList<Enemy> getSpawn() { return spawn; }
-
-    private void setSpawn(ArrayList<Enemy> spawn) { this.spawn = spawn; }
+    private void setSpawn(ArrayList<Enemy> spawn) {
+        this.spawn = spawn;
+    }
 
     boolean hasSpawn() {
         return getSpawn() != null && ! getSpawn().isEmpty();
@@ -81,7 +124,9 @@ class Enemy {
         return getCurrentHp() > 0;
     }
 
-    boolean isDead() { return ! isAlive(); }
+    boolean isDead() {
+        return ! isAlive();
+    }
 
     void reset() {
         setCurrentHp(getMaximumHp());
@@ -97,7 +142,7 @@ class Enemy {
     }
 
     int attemptAttack(Player p, boolean playerIsBlocking) {
-        int val = GameUtils.getRandomBoundedValue();
+        int val = GameUtils.getRandomBoundedValue(BoundaryScale);
 
         if (val < getAttackRating()) {
             return p.beingAttacked(this, playerIsBlocking);
@@ -106,7 +151,7 @@ class Enemy {
     }
 
     ArrayList<Enemy> asFoes() {
-        ArrayList<Enemy> result = new ArrayList<Enemy>();
+        ArrayList<Enemy> result = new ArrayList<>();
         result.add(this);
         if (hasSpawn())
             result.addAll(getSpawn());
@@ -121,25 +166,23 @@ class Enemy {
     boolean hasKeyDrop() {
         return getKeyDrop() != null && (! getKeyDrop().isEmpty());
     }
+
     boolean hasGoldDrop() {
         return getGoldDrop() > 0;
     }
 
     String getTitle(boolean capitalized) {
-
         String t = (getType() == null || getType().isEmpty()) ? "Monster" : getType();
         if (isBoss()) {
             return t;
         }
-        String vowels = "AaEeIiOoUu";
         String prefix;
-        if (vowels.contains(getType().substring(0, 1))) {
+        if (getType() != null && "AaEeIiOoUu".contains(getType().substring(0, 1))) {
             prefix = capitalized ? "An " : "an ";
         }
         else {
             prefix = capitalized ? "A " : "a ";
         }
-
         return prefix + t;
     }
 
