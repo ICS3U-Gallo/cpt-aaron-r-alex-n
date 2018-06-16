@@ -251,6 +251,16 @@ public class Game {
         }
     }
 
+    private void dealWithBossEncounter(Boss boss) {
+        dealWithEncounter(boss);
+
+        if (boss.isDead() && boss.isLast()) {
+            /**
+             * TODO: Does the game end?
+             */
+        }
+    }
+
     private void dealWithRandomEncounter() {
         if (GameUtils.getFiftyFiftyChance()) return;
         // Encounter
@@ -268,7 +278,7 @@ public class Game {
         getPlayer().setRoom(room);
         messageln(getPlayer().getRoomMessage());
         if (room.hasBoss())
-            dealWithEncounter(room.getBoss());
+            dealWithBossEncounter(room.getBoss());
         else
             dealWithRandomEncounter();
 

@@ -8,7 +8,7 @@ class Room {
     private Room south;
     private Room west;
     private String message;
-    private Enemy boss;
+    private Boss boss;
     private boolean locked;
     private String lockType;
     private String key;
@@ -100,11 +100,13 @@ class Room {
         this.message = message;
     }
 
-    Enemy getBoss() {
+    Boss getBoss() {
         return boss;
     }
 
-    private void setBoss(Enemy boss) { this.boss = boss; }
+    void setBoss(Boss boss) {
+        this.boss = boss;
+    }
 
     private String getLockType() {
         return lockType;
@@ -194,12 +196,5 @@ class Room {
 
     boolean hasKey() {
         return isDoor() && isLockTypeKey() && (getKey() != null);
-    }
-
-    void setupBoss(Enemy boss) {
-        setBoss(boss);
-        if (boss != null) {
-            boss.setBoss(true);
-        }
     }
 }
