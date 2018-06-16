@@ -24,7 +24,7 @@ In order to open certain doors in the game, you must retrieve these keys.
 Enemies (and bosses) drop healing potions and gold. 
 The healing potions allow the player to heal a certain amount of health, depending on the strenght of the potion.
 You can heal either during combat, or during free-roam.
-You can only have 5 healing potions at any given time, and you cannot switch them out for other potions.
+You can only have 10 healing potions at any given time, and you cannot switch them out for other potions.
 The coins on the other hand, are a points system. They provide no additional value to the game.
 
 
@@ -34,7 +34,7 @@ They can either attack, block, or heal.
 There is a chance that the player character misses an attack, and blocks don't always succeed.
 Healing consumes one of your healing potions.
 Enemies can also miss thier attacks. Each enemy has a different probability to hit.
-If the the player character takes 150 points of damage, they die.
+If the the player character takes 250 points of damage, they die.
 The player character does 3 damage.
 Enemies have varying health. For example: a troll will have more health than a cave bear.
 During combat, if all you do is attack, you will most likely die. You need to block and heal as much as you attack.
