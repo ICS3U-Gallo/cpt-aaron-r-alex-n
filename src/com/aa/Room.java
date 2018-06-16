@@ -1,6 +1,6 @@
 package com.aa;
 
-class Room {
+public class Room {
     private String name;
     private String type;
     private Room north;
@@ -48,11 +48,11 @@ class Room {
         return name;
     }
 
-    private void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    private String getType() {
+    String getType() {
         return type;
     }
 
@@ -104,13 +104,13 @@ class Room {
         return boss;
     }
 
-    private void setBoss(Enemy boss) { this.boss = boss; }
+    void setBoss(Enemy boss) { this.boss = boss; }
 
-    private String getLockType() {
+    String getLockType() {
         return lockType;
     }
 
-    private void setLockType(String lockType) {
+    void setLockType(String lockType) {
         this.lockType = lockType;
     }
 
@@ -157,6 +157,7 @@ class Room {
     boolean isCorridor() {
         return getType().equals("corridor");
     }
+
 
     void setLockTypeRiddle() {
         if (isDoor()) {
