@@ -55,3 +55,8 @@ Once the final boss has been defeated, the game ends.
 
 When exploring, by typing in "x" instead of directional keys, you can quit the game.
 Dying will also end the game.
+
+
+
+Aaron's father helped us with some main routines for the game, the data structure of the room, and organizing code.
+He also taught us how to work with objects and classes.
