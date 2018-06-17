@@ -1,7 +1,7 @@
 /*
-Class representing a chest that can contain a healing potion and/or gold.
-This class has an indicator that allows the game to launch a random encounter with an enemy
-if it is set to true.
+ * Class representing a chest that can contain a healing potion and/or gold.
+ * This class also has an indicator that allows the game to launch a random
+ * encounter with an enemy if it is set to true.
  */
 package com.aa;
 

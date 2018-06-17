@@ -1,11 +1,10 @@
 /*
-This class represents a room on the map of the game.
-Rooms can be doors, chambers and corridors.
-Chambers and corridors are treated pretty much the same way, but doors are treated differently.
-Doors have locks and different means of unlocking.
-
-Rooms can hold chest objects as well as have Boss objects.
-All that is setup upon initialization of the room structure by the game.
+ * This class represents a room on the map of the game.
+ * Rooms can be doors, chambers and corridors. Chambers and corridors
+ * are treated pretty much the same way, but doors are treated
+ * differently. Doors have locks and different means of unlocking.
+ * Rooms can hold chest objects as well as have Boss objects.
+ * All that is setup upon initialization of the room structure by the game.
  */
 package com.aa;
 

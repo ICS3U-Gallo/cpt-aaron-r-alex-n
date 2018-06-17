@@ -1,9 +1,11 @@
 /*
-This is the class that contains the main() method which sets up an instance of this class
-and launches the game play.
-This class has a Player object, representing the main character of the game.
-It also has a list of enemies that are used for random encounters.
-And it holds an instance of Scanner, to process user input.
+ * This is the class that contains the main() method which sets up
+ * an instance of this class and launches the game play.
+ * This class has a Player object, representing the main character of
+ * the game. It also has a list of enemies that are used for random
+ * encounters. And it holds an instance of Scanner, to process user
+ * input as well as an indicator for the main loop to test if the
+ * game has not been terminated.
  */
 
 package com.aa;

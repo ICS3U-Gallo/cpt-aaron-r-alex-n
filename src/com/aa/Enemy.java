@@ -1,7 +1,8 @@
 /*
-Class that represents an enemy in the game.
-It has variables that hold different attributes that allow for different results when dealing with enemies by the game.
-Enemie can have spawn, which is a collection of more Enemy objects that are used in a random encounter.
+ * Class that represents an enemy in the game.
+ * It has variables that hold different attributes that allow for different
+ * results when dealing with enemies by the game. Enemies can have spawn,
+ * which is a collection of more Enemy objects that are used in a random encounter.
  */
 package com.aa;
 
@@ -23,7 +24,7 @@ class Enemy {
     /*
     Creates an Enemy instance with all the required parameters except for "boss".
      */
-    protected Enemy(String type, int maximumHp, int damage, int attackRating, int healingPotionDrop, String keyDrop, int goldDrop) {
+    Enemy(String type, int maximumHp, int damage, int attackRating, int healingPotionDrop, String keyDrop, int goldDrop) {
         setType(type);
         setMaximumHp(maximumHp);
         setCurrentHp(maximumHp);

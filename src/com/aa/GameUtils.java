@@ -1,3 +1,7 @@
+/*
+ * This is a class that contains global variables used by the game objects as well as methods
+ * that initialize the room structure, the enemy list, and the main character.
+ */
 package com.aa;
 
 import java.util.ArrayList;
@@ -8,11 +12,11 @@ class GameUtils {
 
     static int DoorUnlockChances = 3;
 
-    static int PlayerHp = 150;
+    static int PlayerHp = 250;
     static int PlayerDamage = 3;
-    static int PlayerAttackRating = 60;
+    static int PlayerAttackRating = 70;
     static int PlayerBlockRating = 75;
-    static int MaxNumberOfHealingPotions = 5;
+    static int MaxNumberOfHealingPotions = 10;
 
     static int getRandomBoundedValue(int boundary) {
         Random rand = new Random();
@@ -54,11 +58,11 @@ class GameUtils {
 
 
         Room cr2 = Room.getNewChamber("Cavern");
-        cr2.setMessage("The Dwarven architexture rots away as you enter a large carven.\nStalgmites and stalgtites fill the top and bottom of the cave.\nYou feel a slight draft coming from the holes in the walls, however none of them are large enough for you to pass through.\nYou can go north or east.\n");
+        cr2.setMessage("The Dwarven architecture rots away as you enter a large cavern.\nStalagmites and stalactites fill the top and bottom of the cave.\nYou feel a slight draft coming from the holes in the walls, however none of them are large enough for you to pass through.\nYou can go north or west.\n");
 
 
-        Room hw2 = Room.getNewCorridor("Trap-filled Hallway");
-        hw2.setMessage("As you look down the corridor before you,\nyou notice that there are multiple holes, spikes, and balistas on the walls, roof, and floor.\nThe hallway is booby-trapped and will require careful footing to pass.\nYou can go north or south.\n");
+        Room hw2 = Room.getNewCorridor("Mining Hallway");
+        hw2.setMessage("You enter an old mining hall. This is  where the dwarves mined all their goods.\nYou can go north or south.\n");
 
 
         Room mr1 = Room.getNewChamber("Ruins");
@@ -66,7 +70,7 @@ class GameUtils {
 
 
         Room bb = Room.getNewCorridor("Broken Bridge");
-        bb.setMessage("You enter an underground ravine, a fall from this hight would kill you,\nhowever the fall is so great, there is no way of telling when you would hit the ground.\nLuckily, the ancient dwarves created a stone bridge to cross the ravine,\nbut the years of wear on it has caused it to break in half, the only way to cross would be to jump across.\nYou can go east or west.\n");
+        bb.setMessage("You enter an underground ravine, a fall from this height would kill you,\nhowever the fall is so great, there is no way of telling when you would hit the ground.\nLuckily, the ancient dwarves created a stone bridge to cross the ravine,\nbut the years of wear on it has caused it to break in half, you managed to jump over the gap.\nYou can go east or west.\n");
 
 
         Room mr2 = Room.getNewChamber("King's Court");
@@ -85,15 +89,15 @@ class GameUtils {
 
 
         Room hw3 = Room.getNewCorridor("Empty Hallway");
-        hw3.setMessage("You enter a short hall, with a message written in gold on the walls, multiple times.\nThe ,message reads 'THOSE WHO SHOW AVARICE, WILL DIE THE WAY THEY LIVE.'\nYou can go east or west from here.\n");
+        hw3.setMessage("You enter a short hall, with a message written in gold on the walls, multiple times.\nThe ,message reads 'DEATH AWAITS'\nYou can go east or west from here.\n");
 
 
-        Room rt = Room.getNewChamber("Trapped Room");
-        rt.setMessage("You enter a room filled with traps.\nWalking through blindly will be your demise, but with careful footing, you may proceed freely.\nYou can go east or north.\n");
+        Room rt = Room.getNewChamber("Council Room");
+        rt.setMessage("You enter a council room.\nThis is where the king would seek council from his most trusted advisers.\nYou can go east or north.\n");
 
 
         Room cr3 = Room.getNewCorridor("Golden Hall");
-        cr3.setMessage("The hallway before you if filled with golden coins, and artifacts from ancient worlds.\nThe vault that the dragon sleeps in is near.\nThe walls of the room have magic runes inscribed into them,\nand the only thing that is not of value, is a simple wooden chest.\nThe vast gold temps you...\nYou can go north or south.\n");
+        cr3.setMessage("The hallway before you if filled with golden coins, and artifacts from ancient worlds.\nThe vault that the dragon sleeps in is near.\nThe walls of the room have magic runes inscribed into them,\nand the only thing that is not of value, is a simple wooden chest.\nThe vast gold temps you... However you must slay the dragon before taking any.\nYou can go north or south.\n");
 
 
         Room d3 = Room.getNewLockedDoor("Sealed Door");
@@ -104,7 +108,201 @@ class GameUtils {
 
         Room br = Room.getNewChamber("Vault of Ashardalon");
         br.setMessage("Finally, the vault.\nBones and gold flows out to your feet as you enter.\nThe room is the largest chamber in the entire castle.\nThe heat in the room makes you sweat.\nSmoke quickly fills the room, and as it fades, the great red dragon Ashardalon spreads it's wings in a show of power.\nMagma flows from his mouth and smoke from his nose.\nHe opens his mouth as a fire builds at the back of his throat.\nPrepare for combat!\n");
-        br.setBoss(new Boss(true,"Red Terror Ashardalon", 50, 20, 20, 0, null, 100));
+        br.setBoss(new Boss(true,"Red Terror Ashardalon", 50, 20, 20, 0, null, 1000));
+
+
+        // Optional area
+
+
+
+
+        Room ib = Room.getNewCorridor("Invisible Bridge");
+        ib.setMessage("You step onto an invisible floor. It seems as if you walk on air.\nYou can go north or south from here.");
+
+
+        Room totb = Room.getNewChamber("Tomb of the Beholder");
+        totb.setMessage("You walk into a maze-like room. A foul stench makes your head feel light.\nIncinerated bodies and ash cover the ground.\nYou can go north, south, or west from here./n");
+        totb.setBoss(new Boss(false, "Beholder", 20, 10, 40, 20, null, 30));
+
+
+        Room wh = Room.getNewCorridor("Wet Hall");
+        wh.setMessage("You walk into a wet hall. The roof drips green water, and it collects at your feet. The air smells of poison.\nYou can go north or south from here.\n");
+
+        Room od1 = Room.getNewLockedDoor("Keeper's Gate");
+        od1.setLockTypeKey();
+        od1.setMessage("A large moss-covered door stops your path. Inscribed in it say one simple word: 'Keeper'.");
+        od1.setKey("Skeleton Key");
+
+        Room plague = Room.getNewChamber("Plague Laboratory");
+        plague.setMessage("You walk into a rotted clinic. The walls crumble from old age and the air smells of corpses.\nYou can go north, east, south, or west from here.\n");
+
+
+        Room aw = Room.getNewChamber("Apprentice Workshop");
+        aw.setMessage("You enter a cramped room. It looks like the living quarters of a mage's assistant.\nIn the middle of the room, a small chest. Most likely the belongings of a long dead person.\nYou can only go west from here.\n");
+
+
+        Room mw = Room.getNewChamber("Mage Workshop");
+        mw.setMessage("You walk into a large room. There are all sorts of magical items on the tables around the room.\nClearly this room was owned by a mage, however the chest in the middle is now yours.\nYou can only go south from here.\n");
+
+
+        Room potm = Room.getNewCorridor("Path of the Mage");
+        potm.setMessage("You feel magic fill the air as you walk into this hall.\nPurple runes inscribe the walls.\nA stone face is carved into the wall.\nYou can go east or west from here.\n");
+
+
+        Room rotm = Room.getNewLockedDoor("Mage's Riddle");
+        rotm.setLockTypeRiddle();
+        rotm.setRiddleQuestion("The stone face won't let you proceed unless you answer this riddle:\nI have many tongues but cannot taste\nBy me, most things are turned to waste\nI crack and snap, yet I stay whole\nI may take the largest toll\nI assisted all of the first men\nAnd I will pay them back again\nAround me, people snuggle and sleep\nYet run when I am released from my keep\nI jump around and leap and bound\nThe cold man wishes I he had found");
+        rotm.setRiddleAnswer("fire");
+
+
+        Room pott = Room.getNewCorridor("Path of the Thief");
+        pott.setMessage("Shadows quickly take you, and the only thing that lights the room is a single blue flame.\nIt sits in front of a stone face.\nYou can go north or east from here.\n");
+
+
+        Room rott = Room.getNewLockedDoor("Thief's Riddle");
+        rott.setLockTypeRiddle();
+        rott.setRiddleQuestion("The stone face asks you this riddle:\nI weaken all men for hours each day.\nI show you strange visions while you are away.\nI take you by night, by day take you back. None suffer to have me, but do from my lack. What am I?");
+        rott.setRiddleAnswer("sleep");
+
+
+        Room potw = Room.getNewCorridor("Path of the Warrior");
+        potw.setMessage("As you walk into the corridor, you notice blood everywhere.\nFresh corpses cover the ground, as if they all fought to death.\nA blood-covered stone face is in the wall.\nYou can go north or south from here.\n");
+
+
+        Room rotw = Room.getNewLockedDoor("Warrior's Riddle");
+        rotw.setLockTypeRiddle();
+        rotw.setRiddleQuestion("The face asks you this riddle:\nStronger than steel,\nAnd older than time;\nThey are more patient than death\nand shall stand even when the stars have ceased to shine.\nTheir strength is embedded\nin roots buried deep\nWhere the sands and frosts of ages\ncan never hope to touch or reach.\nWhat is it?");
+        rotw.setRiddleAnswer("mountain");
+
+
+        Room totw = Room.getNewChamber("Trial of the Wanderer");
+        totw.setMessage("You enter a large, flaming colosseum.\nThe screams and cries of pained souls fill the arena.\nThe air smells of cinders and burnt flesh.\nYou can go east or south from here.\n");
+        totw.setBoss(new Boss(false, "Demon Lord", 40, 20, 20, 50, "Moon Key", 100));
+
+
+        Room fl = Room.getNewCorridor("Fading Light");
+        fl.setMessage("The light around you is taken over and consumed by the dark.\nA slight breeze carrying the smell of the dead comes over you.\nThe deeper you walk into the hall, the more of your body turns to dust.\nYou can go east or west from here.\n");
+
+
+        Room hotg = Room.getNewCorridor("Hall of the Gods");
+        hotg.setMessage("You enter a hall. Detailed statues of dwarven gods come out of the walls.\nAt closer inspection, it seems almost as if they were people turned to stone.\nA stone face has been carved in the wall.\nYou can go east or west from here.\n");
+
+
+        Room gr = Room.getNewLockedDoor("Kings Riddle");
+        gr.setLockTypeRiddle();
+        gr.setRiddleQuestion("The face asks you this riddle:\nWhat is it: A box without hinges, key, or lid,\nyet golden treasure inside is hid.");
+        gr.setRiddleAnswer("egg");
+
+
+        Room das = Room.getNewCorridor("Dark Stairway");
+        das.setMessage("You look down a long, narrow stairway. The stairs are dark and hard to see down. Hopefully you don't trip.\nYou can go north, south, east, or west from here.");
+
+
+        Room colp = Room.getNewCorridor("Cold Path");
+        colp.setMessage("This path is cold. It chills you to the bone.\nAs you breathe, you can see your breath.\nFrost covers the walls.\nA frozen face is carved in the wall.\nYou can go north or south from here.");
+
+
+        Room fd = Room.getNewLockedDoor("Frozen Door");
+        fd.setLockTypeRiddle();
+        fd.setRiddleQuestion("The face asks you this riddle:\nOf no use to one\nYet absolute bliss to two.\nThe small boy gets it for nothing.\nThe young man has to lie for it.\nThe old man has to buy it. What is it?");
+        fd.setRiddleAnswer("a kiss");
+
+
+        Room icr = Room.getNewChamber("Iced Room");
+        icr.setMessage("You enter an ice filled room. You nearly slip on your way in. In the middle of the room there's a chest.\nYou can only go south from here.");
+
+
+        Room potl = Room.getNewCorridor("Path of the Lost");
+        potl.setMessage("As you walk into this hall, you see multiple souls. They all walk in unison towards some sort of temple.\nYou can go north or south from here.\n");
+
+
+        Room totl = Room.getNewChamber("Temple of the Lost");
+        totl.setMessage("As you enter the temple, you see multiple white souls praying towards a statue of a woman with a crown.\nMoonlight reaches the statue, however there isn't any way moonlight can get down here...\nThere is a chest at the back of the room.\nYou can only go north from here.\n");
+
+
+        Room mau = Room.getNewChamber("Mausoleum");
+        mau.setMessage("You enter a mausoleum. A horrid stench irritates your skin.\nCorpses hang from the walls. The floor is filled with fecal matter and bones.\nYou can go north, south, east, or west from here.\n");
+        mau.setBoss(new Boss(false, "Keeper of Souls", 20, 10, 50, 20, "Skeleton Key", 50));
+
+
+        Room de = Room.getNewCorridor("Dead End");
+        de.setMessage("You look down this corridor to see a dead end. The roof has collapsed here, and there is nowhere to go.\nYou can only go east from here.\n");
+
+
+        Room sj = Room.getNewCorridor("Short Jump");
+        sj.setMessage("You come across a short fall, nothing too difficult to do.\nYou can go north or south from here.\n");
+
+
+        Room gkl = Room.getNewLockedDoor("Large Gate");
+        gkl.setLockTypeKey();
+        gkl.setMessage("A large gate stops your path. The skeleton key should be able to open this.");
+        gkl.setKey("Skeleton Key");
+
+
+        Room kq = Room.getNewChamber("Keeper's Quaters");
+        kq.setMessage("You enter the Keeper's Quarters. The Keeper of Souls seemed to tend to souls who have not yet passed.\nHe also stoped any intruders from accessing the queen.\nHis belongings are kept inside the chest before you.\nYou can only go north from here.\n");
+
+
+        Room pathdark = Room.getNewCorridor("Path of the Darkmoon");
+        pathdark.setMessage("Fog and moonlight fill this path.\nIn front of you there is a door with a lock shaped like the waxing moon.\nYou can go north or south from here.\n");
+
+
+        Room mood = Room.getNewLockedDoor("Moon Door");
+        mood.setLockTypeKey();
+        mood.setMessage("A large blue seal lies before you. You will require a moon-shaped key to open the door.\nThere is a hint on the door:\n'Past the one that oversees the maze, enter the moss.\nThe clinic awaits, and paths must be taken, only then will the trial begin,\nand the Darkmoon rise again.'\n");
+        mood.setKey("Moon Key");
+
+
+        Room burn = Room.getNewCorridor("Burning Hall");
+        burn.setMessage("The hall you enter is burning, however does not produce heat or smoke.\nNor does it wither or lessen, a strange magic holds the flame here...\nYou can go north, east, or south from here.\n");
+
+
+        Room kingh = Room.getNewCorridor("King's Hall");
+        kingh.setMessage("The hall before you is lined with gold and velvet, the king used to reside near here.\nYou can go east or west from here.\n");
+
+
+        Room kingdoor = Room.getNewLockedDoor("King's Door");
+        kingdoor.setLockTypeKey();
+        kingdoor.setMessage("A red door stops your access. Only the king's key will be able to open it.");
+        kingdoor.setKey("King's Key");
+
+        Room kingkeep = Room.getNewChamber("King's Keep");
+        kingkeep.setMessage("You enter a room containing the valuables of the king within a chest.");
+
+
+        Room kingroom = Room.getNewChamber("King's Living Space");
+        kingroom.setMessage("This is where the king lived. In the middle of the room you see a corpse.\nIt's the king...or at least a husk of him...\nYou can go north or south from here.\n");
+        kingroom.setBoss(new Boss(false, "King of Husks", 1, 5, 50, 50, "King's Key", 500));
+
+
+        Room hidd = Room.getNewChamber("Hidden Room");
+        hidd.setMessage("You find a hidden chamber. The ground is covered by dried blood...\nYou can go north or south from here.\n");
+
+
+        Room tort = Room.getNewChamber("Torture Room");
+        tort.setMessage("You enter a large torture room. Bodies hang from the roof and blood covers the floor.\nYou can go south or west from here.\n");
+
+
+        Room moon = Room.getNewChamber("Infinite Moonlight");
+        moon.setMessage("You enter a large room filled with fog and moonlight that seemingly comes from nowhere.\nYou smell fresh air and feel cold, however you quickly realize it's an illusion.\nYou can go east or west from here.\n");
+
+
+        Room goddoor = Room.getNewLockedDoor("Darkmoon Shield");
+        goddoor.setLockTypeKey();
+        goddoor.setMessage("You see a large moonlight door.\nA curse has come over this castle, and it's due to moonlight magic.\nHowever who could do such a thing?");
+        goddoor.setKey("Moon Key");
+
+
+        Room darkmoon = Room.getNewChamber("Tomb of the Darkmoon");
+        darkmoon.setMessage("You walk into an abyssmal room. Blackness fills the room, except for streaks of moonlight across the air.\nYou can only go north from here...\n");
+        darkmoon.setBoss(new Boss(false, "Moonkissed Queen", 50, 10, 60, 100, null, 1000));
+
+
+        Room fad = Room.getNewCorridor("Fading Dark");
+        fad.setMessage("As you walk through the hall, you begin to glow.\nThe queen was cursed by Ashardalon.\nShe caused the downfall of the kingdom.\nYou can go north or south from here.\n");
+
+
+
 
 
         // now tying it all together
@@ -158,6 +356,136 @@ class GameUtils {
         d3.setSouth(cr3);
 
         d3.setNorth(br);
+
+
+
+        // optional area
+
+
+
+
+        mr1.setNorth(ib);
+        ib.setSouth(mr1);
+
+        ib.setNorth(totb);
+        totb.setSouth(ib);
+
+        totb.setNorth(wh);
+        wh.setSouth(totb);
+        totb.setWest(hotg);
+        hotg.setEast(totb);
+
+        wh.setNorth(od1);
+        od1.setSouth(wh);
+
+        od1.setNorth(plague);
+        plague.setSouth(od1);
+
+        plague.setEast(aw);
+        aw.setWest(plague);
+        plague.setNorth(mw);
+        mw.setSouth(plague);
+        plague.setWest(potm);
+        potm.setEast(plague);
+
+        potm.setWest(rotm);
+        rotm.setEast(potm);
+
+        rotm.setWest(pott);
+        pott.setEast(rotm);
+
+        pott.setNorth(rott);
+        rott.setSouth(pott);
+
+        rott.setNorth(potw);
+        potw.setSouth(rott);
+
+        potw.setNorth(rotw);
+        rotw.setSouth(potw);
+
+        rotw.setNorth(totw);
+        totw.setSouth(rotw);
+
+        totw.setEast(fl);
+        fl.setWest(totw);
+
+        fl.setEast(de);
+
+        hotg.setWest(gr);
+        gr.setEast(hotg);
+
+        gr.setWest(das);
+        das.setEast(gr);
+
+        das.setNorth(colp);
+        colp.setSouth(das);
+        das.setSouth(potl);
+        potl.setNorth(das);
+        das.setWest(mau);
+        mau.setEast(das);
+
+        colp.setNorth(fd);
+        fd.setSouth(colp);
+
+        fd.setNorth(icr);
+        icr.setSouth(fd);
+
+        potl.setSouth(totl);
+        totl.setNorth(potl);
+
+        mau.setWest(de);
+        de.setEast(mau);
+        mau.setSouth(sj);
+        sj.setNorth(mau);
+        mau.setNorth(pathdark);
+        pathdark.setSouth(mau);
+
+        sj.setSouth(gkl);
+        gkl.setNorth(sj);
+
+        gkl.setSouth(kq);
+        kq.setNorth(gkl);
+
+        pathdark.setNorth(mood);
+        mood.setSouth(pathdark);
+
+        moon.setNorth(burn);
+        burn.setSouth(mood);
+
+        burn.setEast(kingh);
+        kingh.setWest(burn);
+
+        kingh.setEast(kingdoor);
+        kingdoor.setWest(kingh);
+
+        kingdoor.setEast(kingkeep);
+        kingkeep.setWest(kingdoor);
+
+        burn.setNorth(kingroom);
+        kingroom.setSouth(burn);
+
+        kingroom.setNorth(hidd);
+        hidd.setSouth(kingroom);
+
+        hidd.setNorth(tort);
+        tort.setSouth(hidd);
+
+        tort.setWest(moon);
+        moon.setEast(tort);
+
+        moon.setWest(goddoor);
+        goddoor.setEast(moon);
+
+        goddoor.setWest(darkmoon);
+
+        darkmoon.setNorth(fad);
+        fad.setSouth(darkmoon);
+
+        fad.setNorth(entrance);
+
+
+
+
 
         return entrance;
         
