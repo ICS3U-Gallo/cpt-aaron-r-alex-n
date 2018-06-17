@@ -44,6 +44,7 @@ class GameUtils {
 
         Room cr1 = Room.getNewChamber("Hidden Chamber");
         cr1.setMessage("You find a small hole in the wall, and walk in, to find yourself facing a rotted chest, years old.\nYou can only go north from here.\n");
+        cr1.setChest(new Chest(100, 10, true));
 
 
         Room rh = Room.getNewCorridor("Spiked Hallway");
@@ -58,7 +59,8 @@ class GameUtils {
 
 
         Room cr2 = Room.getNewChamber("Cavern");
-        cr2.setMessage("The Dwarven architecture rots away as you enter a large cavern.\nStalagmites and stalactites fill the top and bottom of the cave.\nYou feel a slight draft coming from the holes in the walls, however none of them are large enough for you to pass through.\nYou can go north or west.\n");
+        cr2.setMessage("The Dwarven architecture rots away as you enter a large cavern.\nStalagmites and stalactites fill the top and bottom of the cave.\nYou feel a slight draft coming from the holes in the walls, however none of them are large enough for you to pass through.\nThere is a chest in the room.\nYou can go north or west.\n");
+        cr2.setChest(new Chest(200, 15, true));
 
 
         Room hw2 = Room.getNewCorridor("Mining Hallway");
@@ -66,7 +68,7 @@ class GameUtils {
 
 
         Room mr1 = Room.getNewChamber("Ruins");
-        mr1.setMessage("You enter a cave-like room.\nPillars of Dawrven make spike out of the groud, however ubruptly end near an endless cliff.\nThis is mostlikly where the dragon crawled from the speakless depths of the cave system, and entered the dwarven castle...\nYou can go south or west.\n");
+        mr1.setMessage("You enter a cave-like room.\nPillars of Dawrven make spike out of the ground, however abruptly end near an endless cliff.\nThis is most likely where the dragon crawled from the speakless depths of the cave system, and entered the dwarven castle...\nYou also hear a strange noise coming from the north, however there is no path there and only a deadly cliff...\nYou can go south or west.\n");
 
 
         Room bb = Room.getNewCorridor("Broken Bridge");
@@ -98,6 +100,7 @@ class GameUtils {
 
         Room cr3 = Room.getNewCorridor("Golden Hall");
         cr3.setMessage("The hallway before you if filled with golden coins, and artifacts from ancient worlds.\nThe vault that the dragon sleeps in is near.\nThe walls of the room have magic runes inscribed into them,\nand the only thing that is not of value, is a simple wooden chest.\nThe vast gold temps you... However you must slay the dragon before taking any.\nYou can go north or south.\n");
+        cr3.setChest(new Chest(500, 50, false));
 
 
         Room d3 = Room.getNewLockedDoor("Sealed Door");
@@ -139,10 +142,12 @@ class GameUtils {
 
         Room aw = Room.getNewChamber("Apprentice Workshop");
         aw.setMessage("You enter a cramped room. It looks like the living quarters of a mage's assistant.\nIn the middle of the room, a small chest. Most likely the belongings of a long dead person.\nYou can only go west from here.\n");
+        aw.setChest(new Chest(30, 10, false));
 
 
         Room mw = Room.getNewChamber("Mage Workshop");
         mw.setMessage("You walk into a large room. There are all sorts of magical items on the tables around the room.\nClearly this room was owned by a mage, however the chest in the middle is now yours.\nYou can only go south from here.\n");
+        mw.setChest(new Chest(100, 20, true));
 
 
         Room potm = Room.getNewCorridor("Path of the Mage");
@@ -210,6 +215,7 @@ class GameUtils {
 
         Room icr = Room.getNewChamber("Iced Room");
         icr.setMessage("You enter an ice filled room. You nearly slip on your way in. In the middle of the room there's a chest.\nYou can only go south from here.");
+        icr.setChest(new Chest(200, 30, true));
 
 
         Room potl = Room.getNewCorridor("Path of the Lost");
@@ -218,6 +224,7 @@ class GameUtils {
 
         Room totl = Room.getNewChamber("Temple of the Lost");
         totl.setMessage("As you enter the temple, you see multiple white souls praying towards a statue of a woman with a crown.\nMoonlight reaches the statue, however there isn't any way moonlight can get down here...\nThere is a chest at the back of the room.\nYou can only go north from here.\n");
+        totl.setChest(new Chest(500, 10, false));
 
 
         Room mau = Room.getNewChamber("Mausoleum");
@@ -241,6 +248,7 @@ class GameUtils {
 
         Room kq = Room.getNewChamber("Keeper's Quaters");
         kq.setMessage("You enter the Keeper's Quarters. The Keeper of Souls seemed to tend to souls who have not yet passed.\nHe also stoped any intruders from accessing the queen.\nHis belongings are kept inside the chest before you.\nYou can only go north from here.\n");
+        kq.setChest(new Chest(200, 30, false));
 
 
         Room pathdark = Room.getNewCorridor("Path of the Darkmoon");
@@ -266,8 +274,10 @@ class GameUtils {
         kingdoor.setMessage("A red door stops your access. Only the king's key will be able to open it.");
         kingdoor.setKey("King's Key");
 
+
         Room kingkeep = Room.getNewChamber("King's Keep");
         kingkeep.setMessage("You enter a room containing the valuables of the king within a chest.");
+        kingkeep.setChest(new Chest(500, 50, true));
 
 
         Room kingroom = Room.getNewChamber("King's Living Space");
@@ -593,6 +603,21 @@ class GameUtils {
         e = new Enemy("Hag", 4, 3, 25, 5, null, 10);
         e.addSpawn(new Enemy("Insect Swarm", 1, 3, 90, 0, null, 1));
         e.addSpawn(new Enemy("Rotted Giant", 10, 8, 40, 0, null, 20));
+        enemies.add(e);
+
+        e = new Enemy("Shadow Dweller", 10, 7, 70, 5, null, 1);
+        enemies.add(e);
+
+        e = new Enemy("Zombie", 5, 10, 50, 5, null, 25);
+        enemies.add(e);
+
+        e = new Enemy("Minotaur", 10, 6, 50, 20, null, 25);
+        enemies.add(e);
+
+        e = new Enemy("Soulreaper", 15, 10, 40, 20, null, 50);
+        enemies.add(e);
+
+        e = new Enemy("Moonkissed Soul", 5, 5, 50, 5, null, 10);
         enemies.add(e);
         
         

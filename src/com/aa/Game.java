@@ -477,7 +477,7 @@ public class Game {
         for (int i = 0; i < 100; i ++) message("\n");
 
         messageln("Welcome to Dungeon Brawler!\n");
-        messageln("You are a drifter, from a far off land.\nFor many years, you took odd jobs from time to time\nhowever recently, you caught wind of a huge bounty, set up by a king.\nYour task is simple: Kill the red dragon Ashardalon, and free the townfolk of it's terror.\nThe dragon has taken residence in an ancient Dwarven castle, deep underground.\nAs you walk in the endless caverns, you misstep, the floor below you breaks\nand fall down into a room...\n\n");
+        messageln("You are a drifter, from a far off land.\nFor many years, you took odd jobs from time to time\nhowever recently, you caught wind of a huge bounty, set up by a king.\nYour task is simple: Kill the red dragon Ashardalon, and free the townfolk of it's terror.\nThe dragon has taken residence in an ancient Dwarven castle, deep underground.\nAs you're leaving the town, a strange man approaches you and warns you of the curse or the Darkmoon, an urban legend.\nYou make little of it, but tell him you'll keep an eye out for it while in the castle.\nAs you walk in the endless caverns, you misstep, the floor below you breaks\nand fall down into a room...\n\n");
         messageln(getPlayer().getRoomMessage());
 
         while (! isFinished()) {
