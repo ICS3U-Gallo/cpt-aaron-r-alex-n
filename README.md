@@ -1,7 +1,17 @@
 # cpt-aaron-r-alex-n
 cpt-aaron-r-alex-n created by GitHub Classroom
 
+NOTE: In order to finish the game in the fastest method, from entrace go:
+east, east, answer the riddle (answer is "e"), north, north, west, west, west, west, north, north.
+This path will bring you to a riddled door, and 2 bosses. You'll also be attacked by enemies.
+
+
+
 NOTE: Going North in the Ruins area will reveal a secret optional path.
+This area is very tough, long, and unnecessary, however we had the time to make it, so we did.
+It was done only for fun.
+The area adds 35 rooms on top of the 15 from the original "main" game.
+I am very sorry if it takes a long time to go through it.
 
 
 This is a video game that both Alex and I made. 
@@ -9,7 +19,7 @@ The game is a text adventure called "Dungeon Brawler".
 
 
 The player explores an underground city using North South East and West to navigate.
-Every time you move, you have a chance of encoutering an enemy.
+Every time you move, you have a chance of encountering an enemy.
 
 
 Certain rooms have bosses, very powerful enemies that you need to defeat in order to proceed.
@@ -18,9 +28,9 @@ In order to open certain doors in the game, you must retrieve these keys.
 
 
 Enemies (and bosses) drop healing potions and gold. 
-The healing potions allow the player to heal a certain amount of health, depending on the strenght of the potion.
+The healing potions allow the player to heal a certain amount of health, depending on the strength of the potion.
 You can heal either during combat, or during free-roam.
-You can only have 5 healing potions at any given time, and you cannot switch them out for other potions.
+You can only have 10 healing potions at any given time, and you cannot switch them out for other potions.
 The coins on the other hand, are a points system. They provide no additional value to the game.
 
 
@@ -29,12 +39,12 @@ The player character has a few options during their turn in combat.
 They can either attack, block, or heal.
 There is a chance that the player character misses an attack, and blocks don't always succeed.
 Healing consumes one of your healing potions.
-Enemies can also miss thier attacks. Each enemy has a different probability to hit.
-If the the player character takes 150 points of damage, they die.
+Enemies can also miss their attacks. Each enemy has a different probability to hit.
+If the the player character takes 250 points of damage, they die.
 The player character does 3 damage.
 Enemies have varying health. For example: a troll will have more health than a cave bear.
 During combat, if all you do is attack, you will most likely die. You need to block and heal as much as you attack.
-Some enemies summon help when fighting you, if you attack when facing multiple enemies, you will attack each one seperatly.
+Some enemies summon help when fighting you, if you attack when facing multiple enemies, you will attack each one separately.
 
 
 There are optional paths in the game.

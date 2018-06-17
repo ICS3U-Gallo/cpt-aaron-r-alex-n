@@ -1,3 +1,13 @@
+/*
+ * This is the class that contains the main() method which sets up
+ * an instance of this class and launches the game play.
+ * This class has a Player object, representing the main character of
+ * the game. It also has a list of enemies that are used for random
+ * encounters. And it holds an instance of Scanner, to process user
+ * input as well as an indicator for the main loop to test if the
+ * game has not been terminated.
+ */
+
 package com.aa;
 
 import java.util.Scanner;
@@ -56,11 +66,25 @@ public class Game {
         this.enemies = enemies;
     }
 
+
     public static void main(String[] args) {
         Game game = new Game();
         game.setPlayer(GameUtils.createPlayer());
         game.setEnemies(GameUtils.createEnemies());
         game.play();
+    }
+
+    private Enemy getRandomEnemy() {
+        if (GameUtils.getFiftyFiftyChance()) return null;
+        Enemy foe = getEnemies().get(GameUtils.getRandomBoundedValue(getEnemies().size()));
+        foe.reset();
+        return foe;
+    }
+
+    private String prompt() {
+        String ui = getInput().next();
+        message("\n");
+        return ui;
     }
 
     private void endGame(String m) {
@@ -71,11 +95,16 @@ public class Game {
         setFinished(true);
     }
 
+    private void playerDies() {
+        messageln("========\nYOU DIED\n========");
+        setFinished(true);
+    }
+
     private void attemptToQuitGame() {
         String input;
         while (true) {
             message("Are you sure you want to quit? (y/n): ");
-            input = getInput().next();
+            input = prompt();
             if ("n".equalsIgnoreCase(input)) {
                 return;
             }
@@ -98,8 +127,7 @@ public class Game {
                 messageln("The " + foe.getType() + " has reduced your health by " + dam + "!\n");
 
                 if (getPlayer().isDead()) {
-                    messageln("========\nYOU DIED\n========");
-                    setFinished(true);
+                    playerDies();
                     return false;
                 }
             }
@@ -137,15 +165,30 @@ public class Game {
             messageln("You've looted the " + foe.getKeyDrop() + " from the " + foe.getType() + ".\n");
         }
         if (foe.hasHealingPotionDrop()) {
-            if (getPlayer().addHealthPotion(foe.getHealingPotionDrop())) {
+            if (getPlayer().addHealingPotion(foe.getHealingPotionDrop())) {
                 messageln("You've looted a healing potion of " + foe.getHealingPotionDrop() +
-                        " points from the " + foe.getType() + ".\n");
+                        " strength from the " + foe.getType() + ".\n");
             }
             else {
                 messageln("You couldn't carry the " + foe.getHealingPotionDrop() +
                         " healing potion dropped by the " + foe.getType() + ".\n");
             }
         }
+    }
+
+    private void playerLootsChest(Chest chest) {
+        if (chest.hasGold()) {
+            getPlayer().addGold(chest.getGold());
+            messageln("You've looted " + chest.getGold() +
+                    " gold from the this chest. Now you have " + getPlayer().getGold() + " gold.\n");
+        }
+        if (chest.hasHealingPotion()) {
+            if (getPlayer().addHealingPotion(chest.getHealingPotion())) {
+                messageln("You've looted a healing potion of " + chest.getHealingPotion() +
+                        " strenght from this chest.\n");
+            }
+        }
+        chest.empty();
     }
 
     private void playerUsesHealingPotion() {
@@ -158,7 +201,8 @@ public class Game {
       Return > 0 if not all the enemies have been killed by player, (if the player decided to attack);
       Return the enemies group size if the player decided to take a potion.
       Return -1 if the player decides to block.
-      Return -2 id the player did not enter a valid command.
+      Return -2 if the player used a healing potion.
+      Return -3 if the player did not enter a valid command.
 
      */
     private int playerTurnWithFoes(ArrayList<Enemy> foes, boolean withPotions) {
@@ -174,7 +218,7 @@ public class Game {
         }
         message(encounter);
 
-        String action = getInput().next();
+        String action = prompt();
         int foesSize = foes.size();
         int bodyCount = 0;
         if ("a".equalsIgnoreCase(action)) {
@@ -203,8 +247,9 @@ public class Game {
 
         if (withPotions && "h".equalsIgnoreCase(action)) {
             playerUsesHealingPotion();
+            return -2;
         }
-        return foesSize;
+        return -3;
     }
 
 
@@ -228,25 +273,32 @@ public class Game {
         }
 
         boolean block;
-        int outcome = foes.size();
-        int currentFoes = outcome;
+
+        int currentFoes = foes.size();
+        int outcome = currentFoes;
         while(outcome > 0) {
             block = false;
             outcome = playerTurnWithFoes(foes, (getPlayer().hasHealingPotions()));
 
-            if (outcome == -1)
-                block = true;
-            else {
-                if (outcome == -2 || (outcome == 0))
-                    continue;
-                else
-                    currentFoes = outcome;
+            if (outcome == 0) {
+                currentFoes = 0;
+                continue;
             }
-            messageln("Now, it is the enemies turn... \n");
-            if (foesAttackPlayer(foes, block))
+            if (outcome > 0) {
+                currentFoes = outcome;
+            }
+
+            if (outcome < 0) { // -1, -2, -3
+                if (outcome == -1) {
+                    block = true;
+                }
                 outcome = currentFoes;
-            else
-                outcome = -3;
+            }
+
+            messageln("Now, it is the enemies turn... \n");
+
+            if (!foesAttackPlayer(foes, block))
+                outcome = -4;
 
         }
     }
@@ -255,18 +307,36 @@ public class Game {
         dealWithEncounter(boss);
 
         if (boss.isDead() && boss.isLast()) {
-            /**
-             * TODO: Does the game end?
-             */
+            endGame("Congratulations! You have killed the mastr of this dungeon: " + boss.getTitle() +
+                    "\nGold: " + getPlayer().getGold());
+
         }
     }
 
-    private void dealWithRandomEncounter() {
-        if (GameUtils.getFiftyFiftyChance()) return;
-        // Encounter
-        Enemy foe = getEnemies().get(GameUtils.getRandomBoundedValue(getEnemies().size()));
-        foe.reset();
-        dealWithEncounter(foe);
+    private void dealWithChest(Chest chest) {
+        boolean prompt = true;
+        String action;
+        while(prompt) {
+            message("There is a chest. What do you want to do? (o)pen or (l)eave?: ");
+            action = prompt();
+            if ("o".equalsIgnoreCase(action)) {
+                if (chest.isRandomEncounter()) {
+                    Enemy foe = getRandomEnemy();
+                    if (foe != null) {
+                        messageln("The chest has a trap and magically summons a monster!");
+                        dealWithEncounter(foe);
+                    }
+                }
+                if (getPlayer().isAlive()) {
+                    playerLootsChest(chest);
+                }
+                prompt = false;
+            }
+            if ("l".equalsIgnoreCase(action)) {
+                messageln("You leave the chest alone...");
+                prompt = false;
+            }
+        }
     }
 
     private void movePlayerToRoom(String dir, Room room) {
@@ -279,8 +349,16 @@ public class Game {
         messageln(getPlayer().getRoomMessage());
         if (room.hasBoss())
             dealWithBossEncounter(room.getBoss());
-        else
-            dealWithRandomEncounter();
+        else {
+            Enemy foe = getRandomEnemy();
+            if (foe != null) {
+                dealWithEncounter(foe);
+            }
+        }
+
+        if (getPlayer().isAlive() && room.hasChest()) {
+            dealWithChest(room.getChest());
+        }
 
     }
 
@@ -308,8 +386,8 @@ public class Game {
             messageln("To unlock this door, you need to enter the answer to the following riddle.");
             messageln("You only have " + DoorUnlockChances + "chances.  If you fail, you die!: \n");
             for (int i=0; i < DoorUnlockChances; i++) {
-                message(door.getRiddleQuestion() + "(" + (i+1) + " of " + DoorUnlockChances + "): ");
-                answer = getInput().next();
+                message(door.getRiddleQuestion() + " (" + (i+1) + " of " + DoorUnlockChances + "): ");
+                answer = prompt();
                 if (answer.equalsIgnoreCase(door.getRiddleAnswer())) {
                     messageln("You have successfully answered the riddle.\nThe door unlocks and you proceed to the following room.");
                     door.unlock();
@@ -369,7 +447,7 @@ public class Game {
         else {
             message("\nWhat would you like to do? Go (n)orth, (e)ast, (s)outh or (w)est?: ");
         }
-        String playerInput = getInput().next();
+        String playerInput = prompt();
         messageln("\n");
         if ("x".equalsIgnoreCase(playerInput)) {
             attemptToQuitGame();

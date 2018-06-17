@@ -1,3 +1,7 @@
+/*
+ * This is a class that contains global variables used by the game objects as well as methods
+ * that initialize the room structure, the enemy list, and the main character.
+ */
 package com.aa;
 
 import java.util.ArrayList;

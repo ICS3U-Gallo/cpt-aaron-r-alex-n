@@ -1,3 +1,11 @@
+/*
+ * This class represents a room on the map of the game.
+ * Rooms can be doors, chambers and corridors. Chambers and corridors
+ * are treated pretty much the same way, but doors are treated
+ * differently. Doors have locks and different means of unlocking.
+ * Rooms can hold chest objects as well as have Boss objects.
+ * All that is setup upon initialization of the room structure by the game.
+ */
 package com.aa;
 
 class Room {
@@ -8,6 +16,7 @@ class Room {
     private Room south;
     private Room west;
     private String message;
+    private Chest chest;
     private Boss boss;
     private boolean locked;
     private String lockType;
@@ -100,6 +109,14 @@ class Room {
         this.message = message;
     }
 
+    Chest getChest() {
+        return chest;
+    }
+
+    void setChest(Chest chest) {
+        this.chest = chest;
+    }
+
     Boss getBoss() {
         return boss;
     }
@@ -188,6 +205,10 @@ class Room {
     void unlock() {
         if (!isDoor()) return;
         setLocked(false);
+    }
+
+    boolean hasChest() {
+        return getChest() != null && getChest().notEmpty();
     }
 
     boolean hasBoss() {

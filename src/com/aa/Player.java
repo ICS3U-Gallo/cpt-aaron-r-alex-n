@@ -1,3 +1,11 @@
+/*
+ * This is the class that represents the main character of the game.
+ * It has variables representing different attributes of the main
+ * character. Objects of this class have a property that indicates
+ * the current room where the character is located. The game
+ * initializes the player and the rooms structure setting the initial
+ * room of the player to the first room.
+ */
 package com.aa;
 
 import java.util.ArrayList;
@@ -99,7 +107,7 @@ class Player {
         this.room = room;
     }
 
-    private boolean isAlive() {
+    boolean isAlive() {
         return getCurrentHp() > 0;
     }
 
@@ -226,7 +234,7 @@ class Player {
         return -1;
     }
 
-    boolean addHealthPotion(int potion) {
+    boolean addHealingPotion(int potion) {
         if (potion == 0 || (getHealingPotions().size() == MaxNumberOfHealingPotions)) return false;
         getHealingPotions().add(potion);
         return true;
