@@ -1,14 +1,13 @@
 /*
- * Class that represents an enemy in the game.
- * It has variables that hold different attributes that allow for different
- * results when dealing with enemies by the game. Enemies can have spawn,
- * which is a collection of more Enemy objects that are used in a random encounter.
+  Class that represents an enemy in the game.
+  It has variables that hold different attributes that allow for different
+  results when dealing with enemies by the game. Enemies can have spawn,
+  which is a collection of more Enemy objects that are used in a random encounter.
  */
 package com.aa;
 
 import java.util.ArrayList;
 
-import static com.aa.GameUtils.BoundaryScale;
 
 class Enemy {
     private String type;
@@ -22,7 +21,8 @@ class Enemy {
     private ArrayList<Enemy> spawn;
 
     /*
-    Creates an Enemy instance with all the required parameters except for "boss".
+    Creates an Enemy instance with all the required parameters.
+    The array list are the summones of the enemy, meaning that the enemy can spawn in other enemies.
      */
     Enemy(String type, int maximumHp, int damage, int attackRating, int healingPotionDrop, String keyDrop, int goldDrop) {
         setType(type);
@@ -36,6 +36,8 @@ class Enemy {
         setSpawn(new ArrayList<>());
     }
 
+    /* Now we use getters and setters for each variable in order to retrieve and give values to each variable,
+    for each separate object */
     String getType() {
         return type;
     }
@@ -108,22 +110,34 @@ class Enemy {
         this.spawn = spawn;
     }
 
+
+    // Returns true if the enemy has summons.
     boolean hasSpawn() {
         return getSpawn() != null && ! getSpawn().isEmpty();
     }
 
+    // Add the parameter "enemy" as one of the spawns or summons.
     void addSpawn(Enemy e) {
         getSpawn().add(e);
     }
 
+
+    // Returns true if is alive (if hp > 0)
     boolean isAlive() {
         return getCurrentHp() > 0;
     }
+
 
     boolean isDead() {
         return ! isAlive();
     }
 
+
+
+    /*
+    Sets the health to maximum health, as well as for spawns, if they exist.
+    This method is useful because the list of enemies in the GameUtils class is reused.
+     */
     void reset() {
         setCurrentHp(getMaximumHp());
         if (hasSpawn()) {
@@ -133,19 +147,29 @@ class Enemy {
         }
     }
 
+
+
+    // Reduces the current health of the enemy by the amount of damage being passed.
     void takeDamage(int d) {
         setCurrentHp(getCurrentHp() - d);
     }
 
+
+    // The enemy attepts an attack, that will only pass if it is below the the attack rating.
     int attemptAttack(Player p, boolean playerIsBlocking) {
-        int val = GameUtils.getRandomBoundedValue(BoundaryScale);
+        int val = GameUtils.getRandomBoundedValue(99);
 
         if (val < getAttackRating()) {
+            // Returns the player being attacked.
             return p.beingAttacked(this, playerIsBlocking);
         }
         return 0;
     }
 
+
+    /*
+    Returns the enemy and its spawn in one collection.
+     */
     ArrayList<Enemy> asFoes() {
         ArrayList<Enemy> result = new ArrayList<>();
         result.add(this);
@@ -155,26 +179,52 @@ class Enemy {
         return result;
     }
 
+
+    // Returns true if it drops a healing potion which has to be greater than 0.
     boolean hasHealingPotionDrop() {
         return getHealingPotionDrop() > 0;
     }
 
+
+
+    // Returns true if the enemy drops a key, as long as the key isn't null or empty string.
     boolean hasKeyDrop() {
         return getKeyDrop() != null && (! getKeyDrop().isEmpty());
     }
 
+
+
+    // Drops gold which is then picked up by the player.
     boolean hasGoldDrop() {
         return getGoldDrop() > 0;
     }
 
+    /*
+    This prints the way to describe the enemy.
+    If the enemy contains a vowel as the first letter in it's name, the game prints out "an", for example "an orc".
+    Otherwise, it prints out an "a", like "a skeleton".
+     */
     String getTitle(boolean capitalized) {
-        String t = (getType() == null || getType().isEmpty()) ? "Monster" : getType();
+        String t;
+        if (getType() == null || getType().isEmpty()) {
+            t = "Monster";
+        } else {
+            t = getType();
+        }
         String prefix;
-        if (getType() != null && "AaEeIiOoUu".contains(getType().substring(0, 1))) {
-            prefix = capitalized ? "An " : "an ";
+        if ("AaEeIiOoUu".contains(t.substring(0, 1))) {
+            if (capitalized) {
+                prefix = "An ";
+            } else {
+                prefix = "an ";
+            }
         }
         else {
-            prefix = capitalized ? "A " : "a ";
+            if (capitalized) {
+                prefix = "A ";
+            } else {
+                prefix = "a ";
+            }
         }
         return prefix + t;
     }

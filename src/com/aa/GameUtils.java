@@ -1,32 +1,66 @@
 /*
- * This is a class that contains global variables used by the game objects as well as methods
- * that initialize the room structure, the enemy list, and the main character.
+  This is a class that contains global variables used by the game objects as well as methods
+  that initialize the room structure, the enemy list, and the main character.
+  You can construct a very different game if you change constants enemies and room.
  */
 package com.aa;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+//These are the values for the amount of chances you get at answering a door riddle, and the player globals.
 class GameUtils {
-    static int BoundaryScale = 99;
 
+    /*
+    Here are some constants used throughout the game by the different classes.
+     */
+
+    // Number of tries you get to unlock a riddled door.
     static int DoorUnlockChances = 3;
 
+
+    /*
+    These is the player values:
+
+
+    PlayerHp is the player health.
+
+
+    PlayerDamage is the amount of damage the player does.
+
+
+    PlayerAttackRating and PlayerBlockRating are probabilities out of 100 to see if the player lands an attack or
+    is successful in blocking. It is a random chance and it must be withing the limits (70 and 75 respectfully) in order to succeed.
+    Example using PlayerAttackRating:
+    So on a scale from 1 to 100, if the random number chosen is below 70, the attack is successful, if it's above 70, it fails.
+
+
+    MaxNumberOfHealingPotions is the maximum number of healing potions the player character can have at one time.
+     */
     static int PlayerHp = 250;
     static int PlayerDamage = 3;
     static int PlayerAttackRating = 70;
     static int PlayerBlockRating = 75;
     static int MaxNumberOfHealingPotions = 10;
 
+    // This returns a random number between 0 and the random boundary pass.
     static int getRandomBoundedValue(int boundary) {
         Random rand = new Random();
         return rand.nextInt(boundary);
     }
 
+    /*
+     Return true or false on a 50/50 chance. It used for determining a random encounter, and to see if the enemy will attack first.
+     The 50/50 chance is determined by getting a random number between 0 and 99 and seeing if the number is greater than or lesser than 50.
+      */
     static boolean getFiftyFiftyChance() {
-        return getRandomBoundedValue(BoundaryScale) < 50;
+        return getRandomBoundedValue(99) < 50;
     }
 
+    /*This is the map, each "Room" is a Room instance. They're categorized by chambers, corridors, and doors.
+    Map also initializes chests and bosses for the whole game.
+    This method could change the whole game if you change the way this method is written.
+     */
     private static Room createMap() {
 
         Room entrance = Room.getNewChamber("Entrance");
@@ -112,6 +146,8 @@ class GameUtils {
         Room br = Room.getNewChamber("Vault of Ashardalon");
         br.setMessage("Finally, the vault.\nBones and gold flows out to your feet as you enter.\nThe room is the largest chamber in the entire castle.\nThe heat in the room makes you sweat.\nSmoke quickly fills the room, and as it fades, the great red dragon Ashardalon spreads it's wings in a show of power.\nMagma flows from his mouth and smoke from his nose.\nHe opens his mouth as a fire builds at the back of his throat.\nPrepare for combat!\n");
         br.setBoss(new Boss(true,"Red Terror Ashardalon", 50, 20, 20, 0, null, 1000));
+
+
 
 
         // Optional area
@@ -315,7 +351,11 @@ class GameUtils {
 
 
 
-        // now tying it all together
+        /* now tying it all together
+        using methods from the class Room in order to set the direction of each room in comparison to the last.
+        I set it so that one could go into a room and then leave that rooom from where they entered.
+        Example: You can go north from cr1 to get to kr, and south from kr to go to cr1.
+         */
 
         cr1.setNorth(kr);
         kr.setSouth(cr1);
@@ -497,11 +537,16 @@ class GameUtils {
 
 
 
+        // Returns entrance as the starting room.
         return entrance;
         
     }
     
-    // now adding the enemies to the map
+    /* now adding the enemies to the game.
+    This creates the main enemy list.
+    In a random encounter, an enemy from this list it picked up at random.
+    Once the enemy is picked up, the enemy is setup to its full health using the "reset" method in the Enemy class.
+     */
 
     static ArrayList<Enemy> createEnemies() {
         Enemy e;
@@ -621,11 +666,12 @@ class GameUtils {
         enemies.add(e);
         
         
-        
+        // Returns the newly created list of enemies.
         return enemies;
     }
 
 
+    // And finally creating and returning the player.
     static Player createPlayer() {
         Player p = new Player();
         p.setRoom(createMap());

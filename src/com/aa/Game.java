@@ -1,11 +1,11 @@
 /*
- * This is the class that contains the main() method which sets up
- * an instance of this class and launches the game play.
- * This class has a Player object, representing the main character of
- * the game. It also has a list of enemies that are used for random
- * encounters. And it holds an instance of Scanner, to process user
- * input as well as an indicator for the main loop to test if the
- * game has not been terminated.
+  This is the class that contains the main() method which sets up
+  an instance of this class and launches the game play.
+  This class has a Player object, representing the main character of
+  the game. It also has a list of enemies that are used for random
+  encounters. And it holds an instance of Scanner, to process user
+  input as well as an indicator for the main loop to test if the
+  game has not been terminated.
  */
 
 package com.aa;
@@ -16,24 +16,39 @@ import java.util.ArrayList;
 import static com.aa.GameUtils.*;
 
 public class Game {
+    /*
+    Game has a boolean that indicates if it has been finished.
+    It holds an instance of Scanner to get user input.
+    It holds an instance of Player which is initialized by GameUtils.
+    It holds a collection of enemies, as the enemy list, where enemies are picked up in random encounters.
+     */
     private boolean finished;
     private Scanner input;
     private Player player;
     private ArrayList<Enemy> enemies;
 
+
+    // Utility message to print a message on the console followed by a new line.
     private static void messageln(String m) {
         System.out.println(m);
     }
 
+
+    // Utility message to print a message on the console.
     private static void message(String m) {
         System.out.print(m);
     }
 
+
+    // Basic constructor that initializes the Scanner and set the finish flag to false.
     private Game() {
         setFinished(false);
         setInput(new Scanner(System.in));
     }
 
+
+    /* Now we use getters and setters for each variable in order to retrieve and give values to each variable,
+    for each separate object */
     private boolean isFinished() {
         return finished;
     }
@@ -67,6 +82,15 @@ public class Game {
     }
 
 
+
+
+    /*
+    The main method that called to execute the game.
+    It creates an instance of game.
+    It sets the player to the Player initialized by GameUtils.
+    It sets the enemies to the enemies initialized by the Enemy class.
+    It runs the play() method which is the main game routine.
+     */
     public static void main(String[] args) {
         Game game = new Game();
         game.setPlayer(GameUtils.createPlayer());
@@ -74,6 +98,12 @@ public class Game {
         game.play();
     }
 
+
+    /*
+     Returns a random enemy from the enemy list.
+     It does this by getting a random number between 0 and the number of enemies on the enemy list.
+     Before returning the enemy found, the enemy is reset.
+     */
     private Enemy getRandomEnemy() {
         if (GameUtils.getFiftyFiftyChance()) return null;
         Enemy foe = getEnemies().get(GameUtils.getRandomBoundedValue(getEnemies().size()));
@@ -81,12 +111,18 @@ public class Game {
         return foe;
     }
 
+
+
+    // gets user input and returns it.
     private String prompt() {
         String ui = getInput().next();
         message("\n");
         return ui;
     }
 
+
+
+    // Ends game with a message and setting the value of Finished() to true.
     private void endGame(String m) {
         if (m != null) {
             messageln(m);
@@ -95,11 +131,17 @@ public class Game {
         setFinished(true);
     }
 
+
+
+    // Prints a message and ends the game when the player dies.
     private void playerDies() {
         messageln("========\nYOU DIED\n========");
         setFinished(true);
     }
 
+
+
+    // If the user inputs "x", it gives a prompt to quit the game.
     private void attemptToQuitGame() {
         String input;
         while (true) {
@@ -115,7 +157,10 @@ public class Game {
         }
     }
 
-    /* A group of enemies is attacking the player. Return true if the player survives the onslaught, and false if the player dies.
+    /*
+     A group of enemies is attacking the player. Return true if the player survives the onslaught, and false if the player dies.
+     Checks if the player is blocking and also if the player has died.
+     Goes through the enemy's operations of attack.
      */
     private boolean foesAttackPlayer(ArrayList<Enemy> foes, boolean blocking) {
         int dam;
@@ -139,6 +184,12 @@ public class Game {
     }
 
 
+
+
+    /*
+    the player attacks the enemy based on the rules of attacking.
+    If the enemy dies return true, if it doesn't return false.
+     */
     private boolean playerAttemptsToKillFoe(Enemy foe) {
         int atk = getPlayer().attemptAttack(foe);
         if (atk == 0) {
@@ -153,6 +204,9 @@ public class Game {
         return false;
     }
 
+
+
+    // Gives the player the healing potion, key, and gold dropped by the enemy, as long as they're available.
     private void playerLootsFoe(Enemy foe) {
         if (foe.hasGoldDrop()) {
             getPlayer().addGold(foe.getGoldDrop());
@@ -176,6 +230,9 @@ public class Game {
         }
     }
 
+
+
+    // Gives the player the healing potion and gold from a chest as long as they're available.
     private void playerLootsChest(Chest chest) {
         if (chest.hasGold()) {
             getPlayer().addGold(chest.getGold());
@@ -185,12 +242,14 @@ public class Game {
         if (chest.hasHealingPotion()) {
             if (getPlayer().addHealingPotion(chest.getHealingPotion())) {
                 messageln("You've looted a healing potion of " + chest.getHealingPotion() +
-                        " strenght from this chest.\n");
+                        " strength from this chest.\n");
             }
         }
         chest.empty();
     }
 
+
+    // Prints a message as the player consumes a healing potion.
     private void playerUsesHealingPotion() {
         messageln("You use a healing potion and recover " + getPlayer().useHealingPotion() + " health.\n");
     }
@@ -232,6 +291,10 @@ public class Game {
                 else {
                     bodyCount++;
                 }
+                /*
+                 If the number of enemies killed is equal to the number of enemies attacking you,
+                 it returns with victory.
+                  */
                 if (bodyCount == foesSize) {
                     messageln("Victory! All enemies are dead!\n");
                     return 0;
@@ -253,6 +316,11 @@ public class Game {
     }
 
 
+
+    /*
+    This is the main method to initiate an enemy encounter.
+    It also considers the spawn.
+     */
     private void dealWithEncounter(Enemy foe) {
         messageln("You encounter " + foe.getTitle(false) + "! (HP: " + foe.getCurrentHp() + ")");
 
@@ -272,6 +340,9 @@ public class Game {
             }
         }
 
+
+
+        // Aaron's father helped us extensively with this part.
         boolean block;
 
         int currentFoes = foes.size();
@@ -303,6 +374,13 @@ public class Game {
         }
     }
 
+
+
+    /*
+    This method is engaged when the player enters a room with a live boss.
+    If the boss is last, then it ends the game.
+    There is only one final boss.
+     */
     private void dealWithBossEncounter(Boss boss) {
         dealWithEncounter(boss);
 
@@ -313,6 +391,9 @@ public class Game {
         }
     }
 
+
+
+    // Get user input weather or not to open a chest, and processes it.
     private void dealWithChest(Chest chest) {
         boolean prompt = true;
         String action;
@@ -339,6 +420,14 @@ public class Game {
         }
     }
 
+
+
+    /*
+    Moves the player from room to room.
+    If the room has a boss, there is no random encounter.
+    If the room doesn't have a boss, there is a chance to a random encounter.
+    If there is no boss or encounter, or is the encounter has been completed, the player can then open a chest, if there is one present.
+     */
     private void movePlayerToRoom(String dir, Room room) {
         if (room == null) {
             messageln("There is no path " + dir + ".");
@@ -362,6 +451,17 @@ public class Game {
 
     }
 
+
+
+
+    /*
+    The player is moving and has found a door in their path.
+    The parameters include the door, and the room after in the same direction.
+    However if the door is locked, the player needs to unlock it with a key or by answering a riddle.
+    Once the door is unlocked, it moves to the "next room" that is in the same direction of the door in regards to the player.
+    If the door can be unlocked with a riddle, the player is prompted to answer the riddle, but only has a number of chances as defined in GameUtils.
+    If the player cannot answer in that number of chances, the player dies.
+     */
     private void dealWithDoor(String dir, Room door, Room nextRoom) {
         if (door == null) {
             return;
@@ -423,6 +523,9 @@ public class Game {
     }
 
 
+
+
+    // Attempts to move the player in a chosen direction, if it leads to a door, the player deals with the door.
     private void attemptToMovePlayer(String dir, Room nextRoom, Room afterRoom) {
         if (nextRoom == null) {
             messageln("There is nowhere you can go in that direction.");
@@ -437,6 +540,9 @@ public class Game {
     }
 
 
+
+
+    // The player's turn during the movement phase.
     private void playerTurn(boolean withPotions) {
 
         messageln("HP: " + getPlayer().getCurrentHp() + " of " + getPlayer().getMaximumHp() + " Gold: " + getPlayer().getGold());
@@ -473,6 +579,10 @@ public class Game {
         }
     }
 
+
+
+
+    // Triggers the main routine of the game.
     private void play() {
         for (int i = 0; i < 100; i ++) message("\n");
 
