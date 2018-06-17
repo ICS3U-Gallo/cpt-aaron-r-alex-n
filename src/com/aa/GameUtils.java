@@ -124,7 +124,7 @@ class GameUtils {
 
 
         Room totb = Room.getNewChamber("Tomb of the Beholder");
-        totb.setMessage("You walk into a maze-like room. A foul stench makes your head feel light.\nIncinerated bodies and ash cover the ground.\nYou can go north, south, or west from here./n");
+        totb.setMessage("You walk into a maze-like room. A foul stench makes your head feel light.\nIncinerated bodies and ash cover the ground.\nYou can go north, south, or west from here.\n");
         totb.setBoss(new Boss(false, "Beholder", 20, 10, 40, 20, null, 30));
 
 
