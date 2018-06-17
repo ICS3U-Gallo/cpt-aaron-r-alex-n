@@ -1,6 +1,12 @@
 # cpt-aaron-r-alex-n
 cpt-aaron-r-alex-n created by GitHub Classroom
 
+NOTE: In order to finish the game in the fastest method, from entrace go:
+east, east, answer the riddle (answer is "e"), north, north, west, west, west, west, north, north.
+This path will bring you to a riddled door, and 2 bosses. You'll also be attacked by enemies.
+
+
+
 NOTE: Going North in the Ruins area will reveal a secret optional path.
 This area is very tough, long, and unnecessary, however we had the time to make it, so we did.
 It was done only for fun.
