@@ -1,6 +1,13 @@
+/*
+Object that represents a boss enemy.
+This class inherits most of its behavious from Enemy, the only difference is that
+Boss objects are treated differently by the game as well as having an indicator
+used for the final boss.
+ */
+
 package com.aa;
 
-public class Boss extends Enemy {
+class Boss extends Enemy {
 
     private boolean last;
 
@@ -8,7 +15,6 @@ public class Boss extends Enemy {
         super(type, maximumHp, damage, attackRating, healingPotionDrop, keyDrop, goldDrop);
         setLast(last);
     }
-
 
     boolean isLast() {
         return last;

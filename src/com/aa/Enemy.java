@@ -1,3 +1,8 @@
+/*
+Class that represents an enemy in the game.
+It has variables that hold different attributes that allow for different results when dealing with enemies by the game.
+Enemie can have spawn, which is a collection of more Enemy objects that are used in a random encounter.
+ */
 package com.aa;
 
 import java.util.ArrayList;
