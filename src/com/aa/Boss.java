@@ -1,6 +1,6 @@
 /*
 Object that represents a boss enemy.
-This class inherits most of its behavious from Enemy, the only difference is that
+This class inherits most of its behaviour from the Enemy class, the only difference is that
 Boss objects are treated differently by the game as well as having an indicator
 used for the final boss.
  */
