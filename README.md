@@ -1,6 +1,8 @@
 # cpt-aaron-r-alex-n
 cpt-aaron-r-alex-n created by GitHub Classroom
 
+NOTE: The main class is Game, to play the game you need to run it from there.
+
 NOTE: In order to finish the game in the fastest method, from entrace go:
 east, east, answer the riddle (answer is "e"), north, north, west, west, west, west, north, north.
 This path will bring you to a riddled door, and 2 bosses. You'll also be attacked by enemies.
